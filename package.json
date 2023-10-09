@@ -1,0 +1,44 @@
+{
+  "name": "kiwengwa",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ethersproject/providers": "^5.7.2",
+    "@metamask/sdk": "^0.6.1",
+    "antd": "^5.9.0",
+    "axios": "^1.5.0",
+    "ethers": "^5.7.2",
+    "lodash": "^4.17.21",
+    "nanoid": "^5.0.1",
+    "next": "^13.4.19",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "styled-components": "^6.0.7",
+    "web3": "^4.1.1",
+    "web3-utils": "^4.0.5",
+    "zksync": "^0.13.1",
+    "zksync-web3": "^0.14.3",
+    "zustand": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@types/react": "^18.0.0",
+    "babel-plugin-styled-components": "^2.1.4",
+    "eslint": "^8.48.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-next": "^13.4.19",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import-quotes": "^0.0.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^5.0.0-canary-9b4f847d9-20230901",
+    "typescript": "^5.2.2"
+  }
+}
