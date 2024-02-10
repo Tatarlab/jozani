@@ -14,6 +14,8 @@ export const StyledHeader = styled.header`
 export const StyledLogo = styled.a`
   font-family: 'Comfortaa', sans-serif;
   font-size: 3.6rem;
+  font-weight: 400;
   letter-spacing: -2.21px;
   color: ${getCssVar('grey', 900)};
+  text-decoration: none;
 `;

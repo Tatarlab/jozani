@@ -107,13 +107,13 @@ const DARK_THEME = (theme: ITheme) => {
       },
       body1: {
         fontFamily,
-        color: grey[100],
+        color: black[100],
         fontSize: getCssVar('font', 'common'),
         lineHeight: getSizeUnit(18),
       },
       body2: {
         fontFamily,
-        color: grey[100],
+        color: black[100],
         fontSize: getCssVar('font', 'large'),
         fontWeight: getCssVar('font', 'semi-bold'),
         lineHeight: getSizeUnit(22),

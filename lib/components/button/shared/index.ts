@@ -5,4 +5,5 @@ export const StyledButton = styled(MuiButton)`
   min-width: auto;
   max-width: none;
   border-radius: 1.2rem;
+  box-shadow: 0 0 0 0 transparent;
 `;

@@ -154,15 +154,15 @@ const LIGHT_THEME = (theme: ITheme) => {
           },
           containedPrimary: {
             background: getCssVar('yellow', 600),
-            color: getCssVar('grey', 100),
+            color: getCssVar('white', 100),
             '&:hover': { background: getCssVar('yellow', 700), },
             '&:active': { background: getCssVar('yellow', 900), },
           },
           containedSecondary: {
-            background: getCssVar('grey', 900),
-            color: getCssVar('grey', 100),
-            '&:hover': { background: getCssVar('grey', 950), },
-            '&:active': { background: getCssVar('grey', 975), },
+            background: getCssVar('grey', 200),
+            color: getCssVar('grey', 900),
+            '&:hover': { background: getCssVar('grey', 300), },
+            '&:active': { background: getCssVar('grey', 400), },
           },
           textPrimary: {
             color: getCssVar('blue', 300),

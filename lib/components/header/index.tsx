@@ -4,7 +4,7 @@ import { Button } from '../button';
 
 export const Header: React.FC = () => (
   <StyledHeader>
-    <StyledLogo>
+    <StyledLogo href="/">
       pruebate
     </StyledLogo>
 

@@ -18,7 +18,7 @@ const BaseApp: React.FC<AppProps> = (props) => {
   } = props;
 
   return (
-    <ThemeProvider theme={getTheme('dark', {})}>
+    <ThemeProvider theme={getTheme('light', {})}>
       <GlobalStyle />
  
       <App {...props}>
