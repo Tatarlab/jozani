@@ -1,4 +1,4 @@
-import { add, get } from 'lodash';
+import { get } from 'lodash';
 import { IWalletAdapter, IWalletTransaction } from '../../../entities/types';
 import { Currency } from '../types';
 
@@ -32,16 +32,12 @@ export const getTRXWalletAdapter = (): IWalletAdapter => ({
     const tronWeb = new TronWeb();
 
     tronWeb.setAddress(address);
-
     const contract = await tronWeb.contract().at(USDT_TRC20_ADDRESS);
     const balance = await contract.balanceOf(address).call();
 
-    const res = tronWeb.fromSun(balance);
+    console.log('bala', address, balance);
 
-    console.log('bala', res);
-
-    return res;
-    // return 0;
+    return tronWeb.toDecimal(balance._hex);
   },
   getTransactionsTo: async (address) => {
     const tronWeb = new TronWeb();

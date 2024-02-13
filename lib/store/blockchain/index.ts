@@ -34,4 +34,29 @@ export const useBlockchain = create<IBlockchainStore>()(devtools((set, get) => (
 
     return address;
   },
+
+  getWalletBalance: async () => {
+    const { walletAddress } = get();
+
+    const getWBalanceWallet = getFirebaseCallable('getBalanceWallet');
+    const { data } = await getWBalanceWallet({ address: walletAddress });
+    const {
+      isChanged = false,
+      balance,
+      prevBalance,
+      lastIncome,
+    } = pick(data, ['isChanged', 'balance', 'prevBalance', 'lastIncome']);
+
+    if (isChanged) {
+      set({ walletBalance: balance });
+    }
+
+    set({ walletLastIncome: lastIncome });
+
+    return {
+      isChanged,
+      balance,
+      prevBalance,
+    };
+  },
 })))

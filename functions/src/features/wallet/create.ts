@@ -21,6 +21,8 @@ export const createWallet = onCall({}, async (req) => {
   const wallet = await walletInstance.create();
   const walletAddress = walletInstance.getAddress();
 
+  const createdAt = +new Date();
+
   // insert firestore
   await store
     .collection('wallets')
@@ -29,6 +31,9 @@ export const createWallet = onCall({}, async (req) => {
       privateKey: wallet.privateKey,
       network,
       address: walletAddress,
+      balance: 0,
+      createdAt,
+      updatedAt: createdAt,
     });
 
   return {

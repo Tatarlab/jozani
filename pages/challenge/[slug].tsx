@@ -25,17 +25,19 @@ const ChallengePage: React.FC = () => {
   
   const { slug } = router.query;
 
-  const isEditable = slug === 'new';
-
   const {
-    currency, network, walletAddress, walletAddressDataURL,
-    getWalletAddress,
+    currency, network,
+    walletAddress, walletAddressDataURL,
+    walletBalance, walletLastIncome,
+    getWalletAddress, getWalletBalance,
   } = useBlockchain();
 
-  const [isShareAvailable, setIsShareAvailble] = useState(false);
+  const [isBalanceChanged, setIsBalanceChanged] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState('');
 
   const isChallengeNameValid = value && value.length >= 10;
+  const isEditable = !isBalanceChanged ?? slug === 'new';
 
   useEffect(() => {
     getWalletAddress();
@@ -46,10 +48,20 @@ const ChallengePage: React.FC = () => {
       return;
     }
 
-    const getBalance = getFirebaseCallable('getBalanceWallet');
-    getBalance({ address: walletAddress })
-      .then((data) => console.log('DDD', data))
-      .catch((err) => console.log('eee', err));
+    const updateWalletBalance = () => {
+      getWalletBalance()
+        .then(({ isChanged }) => isChanged && setIsBalanceChanged(isChanged));
+
+      setTimeout(updateWalletBalance, 10000);
+    };
+
+    updateWalletBalance();
+
+    // dont forget to remove
+    setTimeout(() => {
+      console.log('CHANGED!');
+      setIsBalanceChanged(true);
+    }, 30000);
   }, [walletAddress]);
 
   return (
@@ -65,11 +77,12 @@ const ChallengePage: React.FC = () => {
 
         <Divider />
         
-        <Grid style={{ margin: '2rem 0' }}>
+        <Grid style={{ marginTop: '2rem' }}>
           <TextField
             isFullWidth
             hiddenLabel
             isError={!isChallengeNameValid}
+            isDisabled={isLoading}
             helperText="Just a few words describing the challenge"
             errorText="Required Minimum 10 symbols"
             label="Challenge name"
@@ -77,119 +90,147 @@ const ChallengePage: React.FC = () => {
             InputProps={{ endAdornment: <IconUpdate fill="currentColor" />, }}
             onChange={(e) => setValue(e.target.value)}
           />
+
+          {isBalanceChanged && !isEditable && (
+            <>
+              <Button
+                fullWidth
+                variant="contained"
+                size="large"
+                style={{ marginTop: '2rem' }}
+                // onClick={}
+              >
+                Create
+              </Button>
+
+              <Grid style={{ marginTop: '2rem' }}>
+                <Typography variant="body1" fontWeight={500}>
+                  Reward:
+                </Typography>
+
+                <Typography variant="body1">
+                  {`$${walletLastIncome?.amount || 0}`}
+                </Typography>
+              </Grid>
+            </>
+          )}
         </Grid>
 
-        <Grid>
-          <Typography variant="h6">
-            Top-up
-            {' '}
+        {isEditable && (
+          <>
+            <Grid style={{ marginTop: '2rem' }}>
+              <Typography variant="h6">
+                Top-up
+                {' '}
 
-            {currency}
+                {currency}
 
-            <div>
-              <Typography variant="body1">
-                You are willing to send any amount you wish more than $10
+                <div>
+                  <Typography variant="body1">
+                    You are willing to send any amount you wish more than $10
+                  </Typography>
+                </div>
               </Typography>
-            </div>
-          </Typography>
 
-          <Card style={{ borderRadius: 6 }}>
+              <Card style={{ borderRadius: 6 }}>
+
+                <Grid>
+                  <Row spacing={2}>
+                    <Col mobile="auto">
+                      <img
+                        src={walletAddressDataURL}
+                        style={{
+                          width: 64,
+                          height: 64,
+                          background: '#ccc' 
+                        }}
+                      />
+                    </Col>
+
+                    <Col mobile={9}>
+                      <div>
+                        <Typography variant="caption">
+                          Network
+                        </Typography>
+
+                        <Typography variant="body1">
+                          {network}
+                        </Typography>
+                      </div>
+
+                      <div style={{ marginTop: 'auto' }} />
+
+                      <div>
+                        <Typography variant="caption">
+                          Wallet address
+                        </Typography>
+
+                        <div style={{ display: 'flex' }}>
+                          <Typography
+                            noWrap
+                            variant="body1"
+                            style={{
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis' 
+                            }}
+                          >
+                            {walletAddress}
+                          </Typography>
+
+                          <i
+                            style={{ marginLeft: 2 }}
+                            onClick={() => copy2Clipboard(walletAddress)}
+                          >
+                            <IconCopy fill={getCssVar('grey', 400)} />
+                          </i>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                </Grid>
+              </Card>
+            </Grid>
 
             <Grid>
-              <Row spacing={2}>
-                <Col mobile="auto">
-                  <img
-                    src={walletAddressDataURL}
-                    style={{
-                      width: 64,
-                      height: 64,
-                      background: '#ccc' 
-                    }}
-                  />
-                </Col>
+              <Card
+                style={{
+                  background: getCssVar('yellow', 100),
+                  borderRadius: 6 
+                }}
+              >
+                <Typography variant="caption" color={getCssVar('grey', 900)}>
+                  <ul>
+                    <li>
+                      Make sure that the network matches recepient
+                      {'\''}
+                      s network to avoid money lost.
+                    </li>
 
-                <Col mobile={9}>
-                  <div>
-                    <Typography variant="caption">
-                      Network
-                    </Typography>
-
-                    <Typography variant="body1">
-                      {network}
-                    </Typography>
-                  </div>
-
-                  <div style={{ marginTop: 'auto' }} />
-
-                  <div>
-                    <Typography variant="caption">
-                      Wallet address
-                    </Typography>
-
-                    <div style={{ display: 'flex' }}>
-                      <Typography
-                        noWrap
-                        variant="body1"
-                        style={{
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis' 
-                        }}
-                      >
-                        {walletAddress}
-                      </Typography>
-
-                      <i
-                        style={{ marginLeft: 2 }}
-                        onClick={() => copy2Clipboard(walletAddress)}
-                      >
-                        <IconCopy fill={getCssVar('grey', 400)} />
-                      </i>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
+                    <li>Deposits of less then $10 are subject to a $5 fee.</li>
+                  </ul>
+                </Typography>
+              </Card>
             </Grid>
-          </Card>
-        </Grid>
+          </>
+        )}
 
-        <Grid>
-          <Card
-            style={{
-              background: getCssVar('yellow', 100),
-              borderRadius: 6 
-            }}
-          >
-            <Typography variant="caption" color={getCssVar('grey', 900)}>
-              <ul>
-                <li>
-                  Make sure that the network matches recepient
-                  {'\''}
-                  s network to avoid money lost.
-                </li>
-
-                <li>Deposits of less then $10 are subject to a $5 fee.</li>
-              </ul>
-            </Typography>
-          </Card>
-        </Grid>
-
-        <Grid style={{ margin: '2rem 0' }}>
+        <Grid style={{ marginTop: '2rem' }}>
           <Typography variant="body1" fontWeight={500}>
             Checking transaction:
           </Typography>
 
-          <div style={{ marginTop: '1rem' }} />
-
           <Typography variant="body1">
-            Awaiting for transfer
+            {isBalanceChanged
+              ? 'Transfer received'
+              : 'Awaiting for transfer'}
           </Typography>
         </Grid>
 
-        <Grid>
+        <Grid style={{ marginTop: '2rem' }}>
           <Row spacing={2}>
             <Col mobile={6}>
               <Button
-                disabled={!isShareAvailable}
+                disabled={isEditable}
                 size="large"
                 variant="contained"
                 color="secondary"

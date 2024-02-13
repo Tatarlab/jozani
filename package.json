@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "net:fe:map": "ngrok config add-authtoken 25TYsPz2bJfFM4WumjniHNQGREi_51W5eynj9A28KSQwpea7S && ngrok http http://localhost:3000",
+    "net:be:map": "ngrok config add-authtoken 25TYsPz2bJfFM4WumjniHNQGREi_51W5eynj9A28KSQwpea7S && ngrok http http://localhost:5001"
   },
   "author": "",
   "license": "ISC",
@@ -18,7 +20,7 @@
     "axios": "^1.5.0",
     "firebase": "^10.8.0",
     "lodash": "^4.17.21",
-    "nanoid": "^5.0.1",
+    "nanoid": "^5.0.5",
     "next": "^13.4.19",
     "qrcode": "^1.5.3",
     "react": "^18.2.0",

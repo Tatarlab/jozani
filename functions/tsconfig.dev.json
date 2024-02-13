@@ -1,5 +1,9 @@
 {
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
   "include": [
     ".eslintrc.js"
-  ]
+  ],
+  "exclude": ["node_modules"]
 }
