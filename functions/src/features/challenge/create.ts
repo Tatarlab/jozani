@@ -1,10 +1,9 @@
-import { last, pick } from 'lodash';
-import { nanoid } from 'nanoid';
+import { first, last, pick } from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 import { onCall } from 'firebase-functions/v2/https';
 import { getFirestore } from 'firebase-admin/firestore';
-import { Wallet } from '../../entities';
 import { Currency } from '../wallet';
-import { getAdapter } from '../wallet/helpers';
+import { _getIncomes } from '../payment/getIncomes';
 
 export const createChallenge = onCall({}, async (req) => {
   const {
@@ -16,30 +15,49 @@ export const createChallenge = onCall({}, async (req) => {
   // connect firestore
   const store = await getFirestore();
 
-  // init wallet w/ adapter
-  const walletAdapter = getAdapter(currency);
-  const walletInstance = new Wallet(walletAdapter);
+  const createdAt = new Date();
 
-  const createdAt = +new Date();
+  const challengeId = uuidv4();
 
-  const transactionsTo = await walletInstance.getTransactionsTo(address);
+  const challengesRef = store.collection('challenges');
+  const challengeDocRef = challengesRef.doc(challengeId);
 
-  const challengeId = nanoid();
+  const lastIncomes = await _getIncomes({ address, currency });
+  const lastIncome = last(lastIncomes);
 
-  // insert firestore
-  const challengeDocRef = store
-    .collection('challenges')
-    .doc(challengeId);
+  // no confirmed payment!
+  if (!lastIncome) {
+    return null;
+  }
+
+  // select bound challenge by paymentId
+  const challengesQuerySnapshot = await challengesRef
+    .where('paymentId', '==', lastIncome?.ref)
+    .limit(1)
+    .get();
+
+  const challengeBoundPaymentId = first(challengesQuerySnapshot.docs
+    .map((doc) => doc.data()));
+  const hasLastIncomeBound = !!challengeBoundPaymentId;
+
+  // challenge already bound with payment!
+  if (hasLastIncomeBound) {
+    return null;
+  }
 
   await challengeDocRef.set({
+    paymentId: lastIncome?.ref,
     name,
-    walletAddress: address,
-    amount: last(transactionsTo)?.amount,
     createdAt,
     updatedAt: createdAt,
   });
 
-  const challengeDocData = (await challengeDocRef.get()).data();
+  const { name: challengeName } = pick((await challengeDocRef.get()).data(), [
+    'name',
+  ]);
 
-  return challengeDocData;
+  return {
+    id: challengeDocRef.id,
+    name: challengeName,
+  };
 });

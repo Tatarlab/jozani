@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { ITextFieldProps } from '../types';
 import { getCssVar } from '../../../styles';
 
-export const StyledTextField = styled(MuiTextField)`
+export const StyledTextField: React.FC<ITextFieldProps> = styled(MuiTextField)`
   width: ${({ isFullWidth = false }: ITextFieldProps) => (isFullWidth
     ? '100%'
     : 'auto')};
@@ -14,7 +14,7 @@ export const StyledTextField = styled(MuiTextField)`
   & > div {
     padding: .8rem 1.2rem;
     background: ${getCssVar('white', 80)};
-    border: 1px solid ${({ error }: TextFieldProps) => (error
+    border: 1px solid ${({ error }) => (error
       ? getCssVar('red', 500)
       : getCssVar('grey', 200))};
     border-radius: .8rem;
@@ -23,14 +23,24 @@ export const StyledTextField = styled(MuiTextField)`
 
   &.contrast > div, & > div[class*=focused] {
     background: ${getCssVar('white', 100)};
-    border: 1px solid ${({ error }: TextFieldProps) => (error
+    border: 1px solid ${({ error }) => (error
       ? getCssVar('red', 500)
       : getCssVar('grey', 200))};
   }
 
   input {
     padding: 0;
-    height: 3.4rem;
+    height: ${({ size = 'medium' }: ITextFieldProps) => {
+      switch (size) {
+        case 'small':
+          return '1.4rem';
+        case 'large':
+          return '3rem';
+        case 'medium':
+        default:
+          return '2rem';
+      }
+    }};
     font-weight: ${getCssVar('font', 'semi-bold')};
     color: ${getCssVar('grey', 900)};
 

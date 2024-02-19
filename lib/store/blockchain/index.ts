@@ -14,49 +14,63 @@ export const useBlockchain = create<IBlockchainStore>()(devtools((set, get) => (
     const localStorage = new LocalStorage();
     const localWalletAddress = localStorage.get(WALLET_ADDRESS_KEY);
 
-    const getQrCode = getFirebaseCallable('getQrCode');
+    try {
+      const getQrCode = getFirebaseCallable('getQrCode');
 
-    if (localWalletAddress) {
-      const { data: dataURL } = await getQrCode({ address: localWalletAddress });
-      set({ walletAddress: localWalletAddress, walletAddressDataURL: dataURL as string });
+      if (localWalletAddress) {
+        const { data: dataURL } = await getQrCode({ address: localWalletAddress });
+        set({ walletAddress: localWalletAddress, walletAddressDataURL: dataURL as string });
 
-      return localWalletAddress;
+        return localWalletAddress;
+      }
+
+      const createWalletAddress = getFirebaseCallable('createWallet');
+      
+      const { data } = await createWalletAddress(currency);
+      const { address } = pick(data, ['address']);
+      const { data: dataURL } = await getQrCode({ address });
+
+      localStorage.set(WALLET_ADDRESS_KEY, address);
+      set(({ walletAddress: address, walletAddressDataURL: dataURL as string }));
+
+      return address;
+    } catch (err) {
+      console.error(`getWalletAddress: ${err}`);
+
+      return '';
     }
-
-    const createWalletAddress = getFirebaseCallable('createWallet');
-    
-    const { data } = await createWalletAddress(currency);
-    const { address } = pick(data, ['address']);
-    const { data: dataURL } = await getQrCode({ address });
-
-    localStorage.set(WALLET_ADDRESS_KEY, address);
-    set(({ walletAddress: address, walletAddressDataURL: dataURL as string }));
-
-    return address;
   },
 
   getWalletBalance: async () => {
     const { walletAddress } = get();
 
     const getWBalanceWallet = getFirebaseCallable('getBalanceWallet');
-    const { data } = await getWBalanceWallet({ address: walletAddress });
-    const {
-      isChanged = false,
-      balance,
-      prevBalance,
-      lastIncome,
-    } = pick(data, ['isChanged', 'balance', 'prevBalance', 'lastIncome']);
+    
+    try {
+      const { data } = await getWBalanceWallet({ address: walletAddress });
+      const {
+        isLastIncomeConfirmed = false,
+        balance,
+        lastIncome,
+      } = pick(data, ['isLastIncomeConfirmed', 'balance', 'lastIncome']);
+  
+      if (isLastIncomeConfirmed) {
+        set({ walletBalance: balance });
+      }
+  
+      set({ walletLastIncome: lastIncome });
+  
+      return {
+        isLastIncomeConfirmed,
+        balance,
+      };
+    } catch (err) {
+      console.error(`getWalletBalance: ${err}`);
 
-    if (isChanged) {
-      set({ walletBalance: balance });
-    }
-
-    set({ walletLastIncome: lastIncome });
-
-    return {
-      isChanged,
-      balance,
-      prevBalance,
-    };
+      return {
+        isLastIncomeConfirmed: false,
+        balance: 0,
+      };
+    }    
   },
 })))

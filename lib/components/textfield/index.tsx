@@ -15,6 +15,7 @@ const TextField = React.forwardRef<unknown, ITextFieldProps>(
     isFullWidth = false,
     isMultiline = false,
     isDynamicMultiline = false,
+    size = 'medium',
     className,
     value,
     onChange: _onChange,
@@ -107,6 +108,7 @@ const TextField = React.forwardRef<unknown, ITextFieldProps>(
         disabled={isDisabled}
         multiline={isMultiline || isDynamicMultiline}
         isFullWidth={isFullWidth}
+        size={size}
         className={cn(className, { contrast: isContrast })}
         value={value}
         rows={rows}

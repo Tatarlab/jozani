@@ -3,7 +3,7 @@ import { ChatBotContext, Route } from '../../../entities/ChatBot/types';
 import TelegramBot from '../../../entities/TelegramBot';
 
 /* eslint-disable no-invalid-this */
-export async function superUserStrategy(
+export async function jozaniStrategy(
   this: TelegramBot,
 ): Promise<Route<ChatBotContext, any>[]> {
   return [
@@ -20,7 +20,7 @@ export async function superUserStrategy(
 
       const [command, param] = text.split(' ');
 
-      if (command === '/start') {
+      if (command === '/start' && param) {
         await context.sendText(`Got your param: ${param}`);
       }
 

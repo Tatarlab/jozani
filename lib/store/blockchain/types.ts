@@ -25,13 +25,12 @@ export interface IBlockchainState {
   walletLastIncome?: IWalletTransaction | null;
 }
 
-  
 export interface IBlockchainMethods {
   getWalletAddress(): Promise<string>;
   getWalletBalance(): Promise<{
-    isChanged: boolean;
+    isLastIncomeConfirmed?: boolean;
     balance: number;
-    prevBalance: number;
+    lastIncome?: unknown | null;
   }>;
 }
 

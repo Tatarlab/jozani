@@ -7,6 +7,7 @@ import { ICardProps } from './types';
 export const Card: React.FC<ICardProps> = ({
   isFullWidth = false,
   isFullHeight = false,
+  isBranding = false,
   title,
   children,
   footer,
@@ -49,8 +50,11 @@ export const Card: React.FC<ICardProps> = ({
     return children;
   }, [contentRef, children, title, footer]);
 
+  console.log('isBranding', isBranding)
+
   return (
     <StyledCard
+      isBranding={isBranding}
       {...props}>
       {titleComponent}
 

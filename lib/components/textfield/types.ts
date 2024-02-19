@@ -3,7 +3,7 @@ import { StandardTextFieldProps } from '@mui/material';
 export interface ITextFieldProps
   extends Omit<
     StandardTextFieldProps,
-    'disabled' | 'multiline' | 'value' | 'error'
+    'value' | 'size'
   > {
   isError?: boolean;
   isContrast?: boolean;
@@ -14,6 +14,7 @@ export interface ITextFieldProps
   readOnly?: boolean;
   value: string;
   errorText?: string;
+  size?: 'small' | 'medium' | 'large';
 }
 
 export enum KeyboardCodes {

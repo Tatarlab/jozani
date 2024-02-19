@@ -11,7 +11,7 @@ export interface IListProps extends ListProps {
   listClassName?: string;
   itemClassName?: string;
   listComponent?: React.FC;
-  itemComponent?: React.FC;
+  itemComponent?: React.FC<IListItemProps>;
   emptyContent?: ReactNode;
   errorContent?: ReactNode;
   loader?: React.FC;
@@ -23,6 +23,9 @@ export interface IListProps extends ListProps {
 
 export interface IListItemProps {
   isActive?: boolean;
+  className?: string;
+  style?: CSSProperties;
+  children: ReactNode;
 }
 
 export interface IBaseListProps extends Pick<IListProps,

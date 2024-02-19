@@ -1,7 +1,14 @@
 import { telegram } from 'bottender/router';
 import { ChatBot } from './ChatBot';
+import { Channels, ChatBotContext, Route } from './ChatBot/types';
 
 export default class TelegramBot extends ChatBot {
+  constructor(
+    protected getStrategy?: () => Promise<Route<ChatBotContext, any>[]>,
+  ) {
+    super(Channels.Telegram, getStrategy);
+  }
+
   message = telegram.message;
   editedMessage = telegram.editedMessage;
 

@@ -42,4 +42,4 @@ export type Route<C extends Context, AC extends Context = C> = {
 
 export type MatchPattern = string | Array<string> | RegExp;
 
-export { Action } from 'bottender';
+export type { Action } from 'bottender';

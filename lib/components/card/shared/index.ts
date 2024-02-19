@@ -4,7 +4,7 @@ import { getCssVar } from '../../../styles';
 import { BREAKPOINTS } from '../../../theme';
 import { ICardProps } from '../types';
 
-export const StyledCard = styled(MuiCard)`
+export const StyledCard: React.FC<ICardProps> = styled(MuiCard)`
   position: relative;
   display: flex;
   flex: ${({ isFullHeight = false }: ICardProps) => (isFullHeight ? '1 0 100%' : 1)};
@@ -19,6 +19,38 @@ export const StyledCard = styled(MuiCard)`
   color: ${getCssVar('black', 100)};
   box-shadow: 3px 2px 9px 1px ${getCssVar('grey', 100)};
   overflow: visible;
+
+  &:before {
+    content: '';
+    display: ${({ isBranding = false }: ICardProps) => (isBranding
+      ? 'block'
+      : 'none')};
+    position: absolute;
+    pointer-events: none;
+    background-image: linear-gradient(333deg, #ffc107, #ff2222, #8c18a0, #03a9f4);
+    mask-image: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px), linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px);
+    -webkit-mask-position-x: 0%, 0%;
+    -webkit-mask-position-y: 0%, 0%;
+    mask-size: auto, auto;
+    mask-repeat: repeat, repeat;
+    mask-origin: content-box, border-box;
+    mask-clip: content-box, border-box;
+    mask-mode: match-source, match-source;
+    mask-composite: exclude;
+    animation-timeline: auto;
+    animation-range-start: normal;
+    animation-range-end: normal;
+    inset: 0px;
+    border-radius: 20px;
+    padding: 2px;
+    animation: 3s linear 0s infinite normal none running rotate;
+  }
+
+  @keyframes rotate {
+    100% {
+      filter: hue-rotate(-360deg);
+    }
+  }
 `;
 
 export const CardTitleWrapper = styled.div`

@@ -92,8 +92,8 @@ const IndexPage: React.FC = () => {
           variant="h3"
           style={{
             lineHeight: 1.1,
-            '-webkit-text-fill-color': 'transparent',
-            '-webkit-background-clip': 'text',
+            ['-webkit-text-fill-color' as string]: 'transparent',
+            ['-webkit-background-clip' as string]: 'text',
             backgroundClip: 'text',
             backgroundImage: 'linear-gradient(270deg, rgba(255, 221, 221, 0.664) -11%, rgba(119, 175, 125, 0.85) 50%, rgba(89, 194, 99, 0.55) 100%)',
             letterSpacing: '-2px',
@@ -134,10 +134,10 @@ const IndexPage: React.FC = () => {
 
       <div style={{ padding: '1.6rem 0' }}>
         <Button
+          isBranding
           fullWidth
           variant="contained"
           size="large"
-          style={{ background: 'linear-gradient(333deg, #ffc107, #ff2222, #8c18a0, #03a9f4)', }}
         >
           Challenge Friend Now
         </Button>

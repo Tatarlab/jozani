@@ -2,7 +2,6 @@ import { onCall } from 'firebase-functions/v2/https';
 import { getFirestore } from 'firebase-admin/firestore';
 import { Wallet } from '../../entities';
 import { pick } from 'lodash';
-import { getAdapter } from './helpers';
 import { Currency, CurrencyNetwork } from './types';
 
 export const createWallet = onCall({}, async (req) => {
@@ -14,14 +13,12 @@ export const createWallet = onCall({}, async (req) => {
   // connect firestore
   const store = await getFirestore();
 
-  // init wallet w/ adapter
-  const walletAdapter = getAdapter(currency);
-  const walletInstance = new Wallet(walletAdapter);
-
+  // init wallet
+  const walletInstance = new Wallet(currency);
   const wallet = await walletInstance.create();
   const walletAddress = walletInstance.getAddress();
 
-  const createdAt = +new Date();
+  const createdAt = new Date();
 
   // insert firestore
   await store

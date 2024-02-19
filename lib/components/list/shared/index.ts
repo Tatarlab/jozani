@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import { IListItemProps } from '../types';
 import { getCssVar } from '../../../styles';
+import React from 'react';
 
 export const ListWrapper = styled.div`
   position: relative;
@@ -19,6 +20,7 @@ export const ListWrapper = styled.div`
 export const ListScroller = styled.div`
   display: flex;
   flex: 1;
+  flex-direction: inherit;
 `;
 
 export const StyledList = styled.ul`
@@ -31,7 +33,7 @@ export const StyledList = styled.ul`
   max-width: 100%;
 `;
 
-export const StyledListItem = styled.li`
+export const StyledListItem: React.FC<IListItemProps> = styled.li`
   display: flex;
   flex: 0 1 auto;
   padding: 0;

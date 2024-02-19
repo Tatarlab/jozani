@@ -8,6 +8,7 @@ export interface ICardProps extends Omit<CardProps,
 > {
   isFullWidth?: boolean;
   isFullHeight?: boolean;
+  isBranding?: boolean;
   contentRef?: React.Ref<HTMLDivElement>;
   title?: ReactNode;
   footer?: ReactNode;

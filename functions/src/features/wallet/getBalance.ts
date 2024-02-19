@@ -2,9 +2,10 @@
 import { onCall } from 'firebase-functions/v2/https';
 import { getFirestore } from 'firebase-admin/firestore';
 import { Wallet } from '../../entities';
-import { last, pick } from 'lodash';
+import { first, last, pick } from 'lodash';
 import { Currency } from './types';
-import { getAdapter } from './helpers';
+import { _createPayment } from '../payment';
+import { _getIncomes } from '../payment/getIncomes';
 
 export const getBalanceWallet = onCall({}, async (req) => {
   const {
@@ -14,46 +15,67 @@ export const getBalanceWallet = onCall({}, async (req) => {
 
   // connect firestore
   const store = await getFirestore();
+  const walletsRef = store.collection('wallets');
+  const challengesRef = store.collection('challenges');
 
-  const walletAdapter = getAdapter(currency);
-  const walletInstance = new Wallet(walletAdapter);
+  const walletDocRef = walletsRef.doc(address);
 
-  // select wallet doc by Id
-  const walletDocRef = store.collection('wallets').doc(address);
-  const walletDocData = (await walletDocRef.get()).data();
-
-  const {
-    balance: defaultBalance,
-  } = pick(walletDocData, ['balance', 'prevBalance']);
-
+  const walletInstance = new Wallet(currency);
   const balance = await walletInstance
     .getBalance(address);
 
-  const isChanged = balance !== defaultBalance;
+  // exit if zero balance
+  if (balance <= 0) {
+    return {
+      balance,
+      prevBalance: 0,
+      lastIncome: null,
+    };
+  }
 
-  const transactionsTo = await walletInstance.getTransactionsTo(address);
-  const lastIncome = last(transactionsTo);
+  const lastIncomesOrigin = await walletInstance.getTransactionsTo(address);
+  const lastIncomeOrigin = last(lastIncomesOrigin);
 
-  if (isChanged) {
-    const updatedAt = +new Date();
+  const lastIncomes = await _getIncomes({ address, currency });
+  const lastIncome = last(lastIncomes);
+  let lastIncomeData = lastIncome?.data();
+  const updatedAt = new Date();
 
-    // update wallet doc
+  // create payment record if not exists
+  let hasLastIncomeBound = false;
+  // eslint-disable-next-line max-len
+  const isLastIncomesEqual = lastIncomeOrigin?.amount === lastIncomeData?.amount;
+
+  if (isLastIncomesEqual) {
+    // check payment boundary to challenge
+    const challengesQuerySnapshot = await challengesRef
+      .where('paymentId', '==', lastIncome?.ref)
+      .limit(1)
+      .get();
+
+    hasLastIncomeBound = !!first(challengesQuerySnapshot.docs
+      .map((doc) => doc.data()));
+  } else {
+    lastIncomeData = await _createPayment({ address, currency });
+
+    // update wallet
     walletDocRef.set({
       balance,
       updatedAt,
     });
+  }
 
+  // allow to bound payment with challenge
+  if (lastIncomeData && !hasLastIncomeBound) {
     return {
-      isChanged,
+      isLastIncomeConfirmed: !hasLastIncomeBound,
       balance,
-      prevBalance: defaultBalance,
       lastIncome,
     };
   }
 
   return {
     balance,
-    prevBalance: balance,
     lastIncome,
   };
 });
