@@ -26,7 +26,7 @@ export const useChallenge = create<IChallengeStore>()(devtools((set, get) => ({
     const getChallenge = getFirebaseCallable('getChallenge');
     
     const { data } = await getChallenge({ id });
-    const challenge = pick(data, ['name', 'reward', 'currency']);
+    const challenge = pick<any>(data, ['name', 'reward', 'currency']);
     const {
       name, reward, currency,
     } = challenge;

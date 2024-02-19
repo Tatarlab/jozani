@@ -27,7 +27,7 @@ export const useBlockchain = create<IBlockchainStore>()(devtools((set, get) => (
       const createWalletAddress = getFirebaseCallable('createWallet');
       
       const { data } = await createWalletAddress(currency);
-      const { address } = pick(data, ['address']);
+      const { address } = pick<any>(data, ['address']);
       const { data: dataURL } = await getQrCode({ address });
 
       localStorage.set(WALLET_ADDRESS_KEY, address);
@@ -52,7 +52,7 @@ export const useBlockchain = create<IBlockchainStore>()(devtools((set, get) => (
         isLastIncomeConfirmed = false,
         balance,
         lastIncome,
-      } = pick(data, ['isLastIncomeConfirmed', 'balance', 'lastIncome']);
+      } = pick<any>(data, ['isLastIncomeConfirmed', 'balance', 'lastIncome']);
   
       if (isLastIncomeConfirmed) {
         set({ walletBalance: balance });

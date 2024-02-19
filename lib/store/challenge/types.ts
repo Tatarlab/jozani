@@ -16,7 +16,7 @@ export interface IChallengeMethods {
     name: string;
     reward: number;
     currency: Currency;
-  }>;
+  } | any>;
   updateTodo(name: string): void;
   deleteTodo(id: number): void;
 }

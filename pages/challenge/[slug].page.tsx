@@ -146,6 +146,7 @@ const ChallengePage: React.FC = () => {
           >
             {CATEGORIES.map((Category, i) => {
               const Icon = IconCategory[Category];
+              console.log('Icon', Icon)
 
               return (
                 <Card
@@ -160,7 +161,9 @@ const ChallengePage: React.FC = () => {
                       color: 'red',
                     }}
                   >
-                    <Icon />
+                    {/* {Icon} */}
+
+                    {Icon && (<Icon height="inherit" />)}
                   </i>
                 </Card>
               );

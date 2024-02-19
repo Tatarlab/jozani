@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // output: 'export',
-  trailingSlash: true,
+  // trailingSlash: true,
   distDir: 'dist',
   pageExtensions: ['page.tsx', 'page.ts'],
   compiler: {
@@ -12,15 +12,15 @@ const nextConfig = {
     concurrentFeatures: true,
     reactRoot: true,
   },
-  // webpack(config) {
-  //   config.module.rules.push({
-  //     test: /\.svg$/i,
-  //     issuer: /\.[jt]sx?$/,
-  //     use: ['@svgr/webpack'],
-  //   });
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      use: ['@svgr/webpack'],
+    });
 
-  //   return config;
-  // }
+    return config;
+  }
 }
 
 module.exports = nextConfig
