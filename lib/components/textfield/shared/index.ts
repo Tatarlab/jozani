@@ -8,8 +8,6 @@ export const StyledTextField: React.FC<ITextFieldProps> = styled(MuiTextField)`
     ? '100%'
     : 'auto')};
   border: 0 solid transparent;
-  border-radius: .4rem;
-  outline: 0;
 
   & > div {
     padding: .8rem 1.2rem;

@@ -13,12 +13,6 @@ export const StyledCard: React.FC<ICardProps> = styled(MuiCard)`
   margin: 1.6rem 0;
   width: ${({ isFullWidth = false }: ICardProps) => (isFullWidth ? '100%' : 'auto')};
   height: ${({ isFullHeight = false }: ICardProps) => (isFullHeight ? '100%' : 'auto')};
-  background: ${getCssVar('grey', 50)};
-  border: 1px solid ${getCssVar('grey', 100)};
-  border-radius: 2.4rem;
-  color: ${getCssVar('black', 100)};
-  box-shadow: 3px 2px 9px 1px ${getCssVar('grey', 100)};
-  overflow: visible;
 
   &:before {
     content: '';

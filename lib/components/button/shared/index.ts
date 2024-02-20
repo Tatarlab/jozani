@@ -8,6 +8,4 @@ export const StyledButton = styled(MuiButton)`
   background-image: ${({ isBranding = false }: IButtonProps) => (isBranding
     ? 'linear-gradient(333deg, #ffc107, #ff2222, #8c18a0, #03a9f4) !important'
     : 'none')};
-  border-radius: 1.2rem;
-  box-shadow: 0 0 0 0 transparent;
 `;

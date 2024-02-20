@@ -34,6 +34,7 @@ const ChallengeField: React.FC<IChallengeFieldProps> = ({
       hiddenLabel
       isError={isError}
       isDisabled={isDisabled}
+      placeholder="Just a few words describing the challenge"
       helperText="Just a few words describing the challenge"
       errorText="Required Minimum 10 symbols"
       label="Challenge name"

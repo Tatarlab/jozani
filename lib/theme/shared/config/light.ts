@@ -130,10 +130,14 @@ const LIGHT_THEME = (theme: ITheme) => {
       MuiListItem: { styleOverrides: { root: { width: 'auto', }, }, },
       MuiButton: {
         styleOverrides: {
+          root: {
+            borderRadius: 16,
+            boxShadow: '0 0 0 0 transparent',
+          },
           sizeLarge: {
             height: getSizeUnit(48),
             padding: '0 1.6rem',
-            borderRadius: '.6rem',
+            borderRadius: 24,
             fontSize: getCssVar('font', 'large'),
             fontWeight: getCssVar('font', 'semi-bold'),
             lineHeight: getSizeUnit(20),
@@ -142,12 +146,14 @@ const LIGHT_THEME = (theme: ITheme) => {
           sizeMedium: {
             height: getSizeUnit(38),
             padding: '0 1.6rem',
+            borderRadius: 16,
             fontSize: getCssVar('font', 'common'),
             fontWeight: getCssVar('font', 'semi-bold'),
           },
           sizeSmall: {
             height: getSizeUnit(32),
             padding: '0 1.2rem',
+            borderRadius: 12,
             fontSize: getCssVar('font', 'common'),
             fontWeight: getCssVar('font', 'semi-bold'),
             lineHeight: getSizeUnit(18),
@@ -228,10 +234,27 @@ const LIGHT_THEME = (theme: ITheme) => {
           root: () => ({
             fontFamily,
             fontWeight: getCssVar('font', 'semi-bold'),
+            borderRadius: 4,
+            outline: 0,
+
+            '&::placeholder': {
+              color: `${getCssVar('black', 100)} !important`,
+            }
           }),
         },
       },
       MuiTooltip: { styleOverrides: { tooltip: { fontSize: getCssVar('font', 'common'), }, }, },
+      MuiCard: {
+        styleOverrides: {
+          root: () => ({
+            background: getCssVar('grey', 50),
+            border: `1px solid ${getCssVar('grey', 100)}`,
+            borderRadius: 24,
+            boxShadow: `3px 2px 9px 1px ${getCssVar('grey', 100)}`,
+            overflow: 'visible',
+          }),
+        },
+      },
     },
   });
 };

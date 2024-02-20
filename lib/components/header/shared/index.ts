@@ -8,7 +8,10 @@ export const StyledHeader = styled.header`
   width: 100%;
   height: 70px;
   align-items: center;
+  background: rgba(255, 255, 255, .15);
   box-sizing: border-box;
+  backdrop-filter: blur(2px);
+  z-index: 9;
 `;
 
 export const StyledLogo = styled.a`
