@@ -17,7 +17,7 @@ const IndexPage: React.FC = () => {
         }}
       >
         <a
-          href="/challenge/new"
+          href="/challenge?slug=new"
           style={{
             position: 'absolute',
             top: 0,

@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import React, {
   useEffect, useState 
 } from 'react';
@@ -21,11 +20,14 @@ import {
   ChallengeField, PaymentCard, TodoListCard 
 } from './ui';
 import { Card } from '../../lib/components/card';
+import { useRouter } from '../../lib/models';
 
 const ChallengePage: React.FC = () => {
   const router = useRouter();
   
   const { slug } = router.query;
+
+  console.log('router', router);
 
   const {
     currency,
@@ -146,7 +148,6 @@ const ChallengePage: React.FC = () => {
           >
             {CATEGORIES.map((Category, i) => {
               const Icon = IconCategory[Category];
-              console.log('Icon', Icon)
 
               return (
                 <Card
