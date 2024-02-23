@@ -32,10 +32,11 @@ const ChallengeField: React.FC<IChallengeFieldProps> = ({
     <TextField
       isFullWidth
       hiddenLabel
+      autoFocus
       isError={isError}
       isDisabled={isDisabled}
-      placeholder="Just a few words describing the challenge"
-      helperText="Just a few words describing the challenge"
+      placeholder="Few words to describe the challenge"
+      helperText="Few words to describe the challenge"
       errorText="Required Minimum 10 symbols"
       label="Challenge name"
       value={name}

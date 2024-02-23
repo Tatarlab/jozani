@@ -28,7 +28,7 @@ const initialize = () => {
   // Initialize Firebase
   const app = initializeApp(FIREBASE_CONFIG);
   const analytics = getAnalytics(app);
-  const functions = getFunctions(app);
+  const functions = getFunctions(app, 'asia-east1');
 
   if (process.env.NODE_ENV !== 'production') {
     connectFunctionsEmulator(functions, 'localhost', 5001);
@@ -48,4 +48,4 @@ const {
   functions,
 } = initialize();
 
-export const getFirebaseCallable = (name: string) => httpsCallable(functions || {} as any, name);
+export const getFirebaseCallable = (name: string) => httpsCallable((functions || {}) as any, name);
