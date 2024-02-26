@@ -57,7 +57,7 @@ const PaymentCard: React.FC<IPaymentCardProps> = ({
 
   return (
     <>
-      <Grid style={{ marginTop: '2rem' }}>
+      <Grid>
         <Typography variant="h6">
           Top-up
           {' '}
@@ -71,9 +71,11 @@ const PaymentCard: React.FC<IPaymentCardProps> = ({
           </div>
         </Typography>
 
+        <div style={{ marginTop: '1.6rem' }} />
+
         <Card style={{ borderRadius: 6 }}>
 
-          <Grid>
+          <Grid outgap={0}>
             <Row spacing={2}>
               <Col mobile="auto">
                 <img

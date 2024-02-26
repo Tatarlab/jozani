@@ -26,7 +26,7 @@ export const useBlockchain = create<IBlockchainStore>()(devtools((set, get) => (
 
       const createWalletAddress = getFirebaseCallable('createWallet');
       
-      const { data } = await createWalletAddress(currency);
+      const { data } = await createWalletAddress({ currency });
       const { address } = pick<any>(data, ['address']);
       const { data: dataURL } = await getQrCode({ address });
 

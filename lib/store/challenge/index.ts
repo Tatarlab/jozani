@@ -55,4 +55,6 @@ export const useChallenge = create<IChallengeStore>()(devtools((set, get) => ({
 
     set({ todo });
   },
+
+  setCategory: (category) => set({ category }),
 })))

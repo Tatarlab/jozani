@@ -247,6 +247,7 @@ const LIGHT_THEME = (theme: ITheme) => {
       MuiCard: {
         styleOverrides: {
           root: () => ({
+            margin: 0,
             background: getCssVar('grey', 50),
             border: `1px solid ${getCssVar('grey', 100)}`,
             borderRadius: 24,

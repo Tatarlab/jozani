@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import TextField from '../../../lib/components/textfield';
 import {
-  IconCross, IconPlus, 
+  IconPlus, IconStar, IconTrash, 
 } from '../../../lib/components/icons';
 import { Card } from '../../../lib/components/card';
 import List from '../../../lib/components/list';
@@ -12,6 +12,8 @@ import Grid from '../../../lib/components/grid';
 import Row from '../../../lib/components/row';
 import Col from '../../../lib/components/col';
 import { Button } from '../../../lib/components/button';
+import Divider from '../../../lib/components/divider';
+import { getCssVar } from '../../../lib/styles';
 
 interface ITodoListCardProps {
   isDisabled?: boolean;
@@ -40,20 +42,20 @@ const TodoListCard: React.FC<ITodoListCardProps> = ({
 
   const renderTodoItem = (item: ReactNode, i: number) => (
     <Typography
-      variant="body1"
+      variant="body2"
       style={{ fontWeight: 500 }}
     >
       {`${i + 1}. ${item}`}
 
       <Button
         style={{
-          padding: '1rem',
+          padding: '0 1rem .6rem',
           width: 40,
         }}
         onClick={() => onDelete(i)}
         // onClick={() => deleteTodo(i)}
       >
-        <IconCross height={36} width={36} />
+        <IconTrash />
       </Button>
     </Typography>
   );
@@ -62,15 +64,16 @@ const TodoListCard: React.FC<ITodoListCardProps> = ({
     <>
       <Card
         isBranding
-        title="To-Do"
+        title="To-Do List"
       >
+
         <List
           isReady
           data={todo}
           renderItem={renderTodoItem}
           emptyContent={(
             <Typography
-              variant="body1"
+              variant="body2"
               textAlign="center"
               align="center"
               style={{ fontWeight: 500 }}
@@ -87,64 +90,66 @@ const TodoListCard: React.FC<ITodoListCardProps> = ({
           left: 0,
           right: 0,
           bottom: 0,
-          padding: '0 1.6rem 1.6rem',
+          background: 'rgba(255, 255, 255, .35)',
+          backdropFilter: 'blur(2px)',
+          // @ts-ignore
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          'webkit-backdrop-filter': 'blur(2px)',
+          boxShadow: `3px 2px 9px 1px ${getCssVar('grey', 100)}`,
+          zIndex: 9,
         }}
       >
         <Grid>
           <Row spacing={2}>
             <Col mobile justifyContent="flex-end">
               <TextField
-                size="small"
                 label="To-Do item"
                 value={todoName}
                 onChange={(e) => setTodoName(e?.target?.value)}
+                InputProps={{
+                  endAdornment: (<i onClick={() => onUpdate(todoName)}>
+                    <IconPlus />
+                  </i>),
+                }}
               />
             </Col>
+          </Row>
+        </Grid>
 
-            <Col mobile="auto" justifyContent="flex-end">
-              <Button
-                isBranding
-                size="small"
-                variant="contained"
-                style={{ width: 40 }}
-                onClick={() => onUpdate(todoName)}
-                // onClick={onAddTodo}
+        <Divider />
+
+        <Grid>
+          <Row spacing={2}>
+            <Col mobile="auto" justifyContent="center">
+              <Typography
+                variant="body2"
+                alignItems="center"
+                gap={8}
               >
-                <IconPlus />
+                {`Reward: `}
+
+                <span style={{ fontWeight: 500 }}>
+                  {/* {`$${walletLastIncome?.amount || 0}`} */}
+                  {reward}
+                </span>
+              </Typography>
+            </Col>
+
+            <Col mobile>
+              <Button
+                fullWidth
+                disabled={isDisabled}
+                // disabled={!isChallengeNameValid}
+                variant="contained"
+                size="large"
+                onClick={onCreate}
+                // onClick={onCreateChallenge}
+              >
+                Create
               </Button>
             </Col>
           </Row>
         </Grid>
-
-        <Grid style={{ marginTop: '2rem' }}>
-          <Row spacing={2}>
-            <Col mobile="auto">
-              <Typography variant="body1" fontWeight={500}>
-                Reward:
-              </Typography>
-            </Col>
-
-            <Col mobile="auto">
-              <Typography variant="body1">
-                {/* {`$${walletLastIncome?.amount || 0}`} */}
-                {reward}
-              </Typography>
-            </Col>
-          </Row>
-        </Grid>
-
-        <Button
-          fullWidth
-          disabled={isDisabled}
-          // disabled={!isChallengeNameValid}
-          variant="contained"
-          size="large"
-          style={{ marginTop: '2rem' }}
-          onClick={onCreate}
-          // onClick={onCreateChallenge}
-        >
-          Create
-        </Button>
       </div>
     </>
   );

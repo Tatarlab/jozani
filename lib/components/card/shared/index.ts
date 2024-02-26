@@ -10,9 +10,10 @@ export const StyledCard: React.FC<ICardProps> = styled(MuiCard)`
   flex: ${({ isFullHeight = false }: ICardProps) => (isFullHeight ? '1 0 100%' : 1)};
   flex-direction: column;
   padding: 1.6rem;
-  margin: 1.6rem 0;
+  margin: 0;
   width: ${({ isFullWidth = false }: ICardProps) => (isFullWidth ? '100%' : 'auto')};
   height: ${({ isFullHeight = false }: ICardProps) => (isFullHeight ? '100%' : 'auto')};
+  transition: all .27s;
 
   &:before {
     content: '';
@@ -50,11 +51,11 @@ export const StyledCard: React.FC<ICardProps> = styled(MuiCard)`
 export const CardTitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: ${getCssVar('font', 'h5')};
+  font-size: ${getCssVar('font', 'h6')};
   font-weight: ${getCssVar('font', 'semi-bold')};
 
   @media screen and (max-width: ${BREAKPOINTS.mobile}px) {
-    padding: 1.6rem 1.6rem;
+    padding: .8rem;
 
     .ml-auto > button {
       padding: 0 0.5rem;

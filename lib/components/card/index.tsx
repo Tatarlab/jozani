@@ -50,8 +50,6 @@ export const Card: React.FC<ICardProps> = ({
     return children;
   }, [contentRef, children, title, footer]);
 
-  console.log('isBranding', isBranding)
-
   return (
     <StyledCard
       isBranding={isBranding}

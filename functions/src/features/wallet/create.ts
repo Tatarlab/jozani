@@ -4,7 +4,10 @@ import { Wallet } from '../../entities';
 import { pick } from 'lodash';
 import { Currency, CurrencyNetwork } from './types';
 
-export const createWallet = onCall({}, async (req) => {
+export const createWallet = onCall({
+  cors: true,
+  invoker: 'public',
+}, async (req) => {
   const {
     currency = Currency.USDT,
     network = CurrencyNetwork.TRC20,
@@ -17,7 +20,6 @@ export const createWallet = onCall({}, async (req) => {
   const walletInstance = new Wallet(currency);
   const wallet = await walletInstance.create();
   const walletAddress = walletInstance.getAddress();
-
   const createdAt = new Date();
 
   // insert firestore

@@ -1,3 +1,4 @@
+import { Category } from '../../components/icons/shared/categories/types';
 import { Currency } from '../blockchain/types';
 
 export interface IChallengeState {
@@ -6,6 +7,7 @@ export interface IChallengeState {
   todo: string[];
   reward: number;
   currency: Currency;
+  category: Category;
 }
   
 export interface IChallengeMethods {
@@ -19,6 +21,7 @@ export interface IChallengeMethods {
   } | any>;
   updateTodo(name: string): void;
   deleteTodo(id: number): void;
+  setCategory(category: Category): void;
 }
 
 export type IChallengeStore = IChallengeState & IChallengeMethods;

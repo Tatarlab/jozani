@@ -17,6 +17,7 @@ import { useBlockchain } from '../../lib/store/blockchain';
 import { createChallenge, } from './helpers';
 import { useChallenge } from '../../lib/store/challenge';
 import {
+  CategoryBox,
   ChallengeField, PaymentCard, TodoListCard 
 } from './ui';
 import { Card } from '../../lib/components/card';
@@ -27,8 +28,6 @@ const ChallengePage: React.FC = () => {
   
   const { slug } = router.query;
 
-  console.log('router', router);
-
   const {
     currency,
     walletAddress,
@@ -37,9 +36,11 @@ const ChallengePage: React.FC = () => {
 
   const {
     id, name, todo,
+    category,
     setId,
     updateTodo,
     deleteTodo,
+    setCategory,
   } = useChallenge();
 
   const [isDirty, setIsDirty] = useState(false);
@@ -90,42 +91,44 @@ const ChallengePage: React.FC = () => {
   }, [id, slug]);
 
   return (
-    <div>
-      <Grid>
-        <Typography
-          variant="body1"
-          textAlign="center"
-          fontWeight={500}
-          style={{ margin: '1rem 0' }}
-        >
-          Challenge
-        </Typography>
+    <div
+      style={{ margin: '0 -1.6rem', }}
+    >
+      <Divider />
 
-        <Divider />
+      {!isNew && (
+        <Grid>
+          <div>
+            <Typography variant="caption">
+              Challenge name
+            </Typography>
 
-        {!isNew && (
-          <Grid style={{ marginTop: '2rem' }}>
-            <div>
-              <Typography variant="caption">
-                Challenge name
-              </Typography>
-
-              <Typography variant="body1" fontWeight={500}>
-                {name}
-              </Typography>
-            </div>
-          </Grid>
-        )}
-        
-        {isNew && (
-          <Grid style={{ marginTop: '2rem' }}>
+            <Typography variant="body1" fontWeight={500}>
+              {name}
+            </Typography>
+          </div>
+        </Grid>
+      )}
+      
+      {isNew && (
+        <>
+          <Grid>
             <ChallengeField
               isError={!isChallengeNameValid && (isDirty || isLastIncomeConfirmed)}
               isDisabled={isLoading && isEditable}
               onInput={() => setIsDirty(true)}
             />
+          </Grid>
 
-            {isLastIncomeConfirmed && !isEditable && (
+          <Grid>
+            <CategoryBox
+              category={category}
+              onChange={setCategory}
+            />
+          </Grid>
+
+          {isLastIncomeConfirmed && !isEditable && (
+            <Grid>
               <TodoListCard
                 isDisabled={!isChallengeNameValid}
                 reward={walletLastIncome?.amount || 0}
@@ -134,105 +137,72 @@ const ChallengePage: React.FC = () => {
                 onUpdate={onTodoUpdate}
                 onDelete={onTodoonDelete}
               />
-            )}
-          </Grid>
-        )}
+            </Grid>
+          )}
+          
+        </>
+      )}
 
-        {(
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              overflow: 'auto',
-            }}
-          >
-            {CATEGORIES.map((Category, i) => {
-              const Icon = IconCategory[Category];
+      {isEditable && (
+        <PaymentCard
+          isConfirmed={isLastIncomeConfirmed}
+          setIsConfirmed={setIsLastIncomeConfirmed}
+        />
+      )}
 
-              return (
-                <Card
-                  key={i}
-                  style={{ marginRight: '2rem', }}
-                >
-                  <i
-                    style={{
-                      display: 'flex',
-                      width: 36,
-                      height: 36,
-                      color: 'red',
-                    }}
-                  >
-                    {/* {Icon} */}
+      {isNew && (
+        <Grid>
+          <Typography variant="body2">
+            {`Transaction status: `}
 
-                    {Icon && (<Icon height="inherit" />)}
-                  </i>
-                </Card>
-              );
-            })}
-          </div>
-        )}
-
-        {isEditable && (
-          <PaymentCard
-            isConfirmed={isLastIncomeConfirmed}
-            setIsConfirmed={setIsLastIncomeConfirmed}
-          />
-        )}
-
-        {isNew && (
-          <Grid style={{ marginTop: '2rem' }}>
-            <Typography variant="body1" fontWeight={500}>
-              Checking transaction:
-            </Typography>
-
-            <Typography variant="body1">
+            <span style={{ fontWeight: 500 }}>
               {isLastIncomeConfirmed
-                ? 'Transfer received'
+                ? 'Received'
                 : 'Awaiting for transfer'}
-            </Typography>
-          </Grid>
-        )}
-
-        <Grid style={{ marginTop: '2rem' }}>
-          <Row spacing={2}>
-            <Col mobile="auto">
-              <Button
-                disabled={isNew}
-                size="large"
-                variant="contained"
-                color="secondary"
-                style={{ width: 100 }}
-              >
-                Share
-                
-                <i style={{ marginLeft: '.5rem' }}>
-                  <IconShare fill="currentColor" />
-                </i>
-              </Button>
-            </Col>
-
-            <Col mobile>
-              <Button
-                fullWidth
-                size="large"
-                variant="contained"
-                color="secondary"
-                style={{ backgroundColor: '#efefef' }}
-              >
-                Subscribe with
-
-                <i
-                  style={{
-                    marginTop: 4,
-                    marginLeft: '.5rem' 
-                  }}
-                >
-                  <IconTelegram fill="#26A5E4" />
-                </i>
-              </Button>
-            </Col>
-          </Row>
+            </span>
+          </Typography>
         </Grid>
+      )}
+
+      <Grid>
+        <Row spacing={2}>
+          <Col mobile="auto">
+            <Button
+              disabled={isNew}
+              size="large"
+              variant="contained"
+              color="secondary"
+              style={{ width: 100 }}
+            >
+              Share
+              
+              <i style={{ marginLeft: '.5rem' }}>
+                <IconShare fill="currentColor" />
+              </i>
+            </Button>
+          </Col>
+
+          <Col mobile>
+            <Button
+              fullWidth
+              size="large"
+              variant="contained"
+              color="secondary"
+              style={{ backgroundColor: '#efefef' }}
+            >
+              Subscribe with
+
+              <i
+                style={{
+                  marginTop: 4,
+                  marginLeft: '.5rem' 
+                }}
+              >
+                <IconTelegram fill="#26A5E4" />
+              </i>
+            </Button>
+          </Col>
+        </Row>
       </Grid>
     </div>
   );

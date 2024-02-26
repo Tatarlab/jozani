@@ -28,7 +28,7 @@ const initialize = () => {
   // Initialize Firebase
   const app = initializeApp(FIREBASE_CONFIG);
   const analytics = getAnalytics(app);
-  const functions = getFunctions(app, 'asia-east1');
+  const functions = getFunctions(app);
 
   if (process.env.NODE_ENV !== 'production') {
     connectFunctionsEmulator(functions, 'localhost', 5001);

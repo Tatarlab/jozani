@@ -3,5 +3,5 @@ import styled from 'styled-components';
 import { getCssVar } from '../../../styles';
 
 export const StyledDivider = styled(MuiDivider)`
-  background: ${getCssVar('grey', 200)};
+  background: ${getCssVar('grey', 100)};
 `;
