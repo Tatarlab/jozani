@@ -5,6 +5,7 @@ export interface ITextFieldProps
     StandardTextFieldProps,
     'value' | 'size'
   > {
+  isBranding?: boolean;
   isError?: boolean;
   isContrast?: boolean;
   isDisabled?: boolean;

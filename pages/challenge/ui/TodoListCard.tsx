@@ -62,7 +62,7 @@ const TodoListCard: React.FC<ITodoListCardProps> = ({
 
   return (
     <>
-      <Card
+      {/* <Card
         isBranding
         title="To-Do List"
       >
@@ -82,7 +82,7 @@ const TodoListCard: React.FC<ITodoListCardProps> = ({
             </Typography>
           )}
         />
-      </Card>
+      </Card> */}
 
       <div
         style={{
@@ -99,7 +99,7 @@ const TodoListCard: React.FC<ITodoListCardProps> = ({
           zIndex: 9,
         }}
       >
-        <Grid>
+        {/* <Grid>
           <Row spacing={2}>
             <Col mobile justifyContent="flex-end">
               <TextField
@@ -116,7 +116,7 @@ const TodoListCard: React.FC<ITodoListCardProps> = ({
           </Row>
         </Grid>
 
-        <Divider />
+        <Divider /> */}
 
         <Grid>
           <Row spacing={2}>

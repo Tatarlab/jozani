@@ -9,6 +9,7 @@ import { TRIM_SYMBOLS } from './shared/constants';
 
 const TextField = React.forwardRef<unknown, ITextFieldProps>(
   ({
+    isBranding = false,
     isError = false,
     isContrast = false,
     isDisabled = false,
@@ -104,6 +105,7 @@ const TextField = React.forwardRef<unknown, ITextFieldProps>(
     return (
       <StyledTextField
         inputRef={ref}
+        isBranding={isBranding}
         error={isError}
         disabled={isDisabled}
         multiline={isMultiline || isDynamicMultiline}

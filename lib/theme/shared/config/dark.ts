@@ -3,9 +3,7 @@
 import {
   BreakpointOverrides, createTheme 
 } from '@mui/material/styles';
-import { get } from 'lodash';
 import { getCssVar } from '../../../styles/helpers';
-import { getSizeUnit } from '../..';
 import {
   Breakpoints, ITheme 
 } from '../../types';
@@ -18,6 +16,7 @@ import {
   grey,
   red,
 } from '../constants';
+import { getSizeUnit } from '../helpers';
 
 const PALETTE = {
   primary: blue[500],
@@ -41,7 +40,7 @@ const DARK_THEME = (theme: ITheme) => {
       values: BREAKPOINTS,
     } as BreakpointOverrides,
     palette: {
-      mode: 'dark',
+      mode: 'light',
       primary: { main: PALETTE.primary, },
       secondary: {
         // Buttons
@@ -131,10 +130,14 @@ const DARK_THEME = (theme: ITheme) => {
       MuiListItem: { styleOverrides: { root: { width: 'auto', }, }, },
       MuiButton: {
         styleOverrides: {
+          root: {
+            borderRadius: 16,
+            boxShadow: '0 0 0 0 transparent',
+          },
           sizeLarge: {
             height: getSizeUnit(48),
             padding: '0 1.6rem',
-            borderRadius: '.6rem',
+            borderRadius: 24,
             fontSize: getCssVar('font', 'large'),
             fontWeight: getCssVar('font', 'semi-bold'),
             lineHeight: getSizeUnit(20),
@@ -143,27 +146,29 @@ const DARK_THEME = (theme: ITheme) => {
           sizeMedium: {
             height: getSizeUnit(38),
             padding: '0 1.6rem',
+            borderRadius: 16,
             fontSize: getCssVar('font', 'common'),
             fontWeight: getCssVar('font', 'semi-bold'),
           },
           sizeSmall: {
             height: getSizeUnit(32),
             padding: '0 1.2rem',
+            borderRadius: 12,
             fontSize: getCssVar('font', 'common'),
             fontWeight: getCssVar('font', 'semi-bold'),
             lineHeight: getSizeUnit(18),
           },
           containedPrimary: {
             background: getCssVar('yellow', 600),
-            color: getCssVar('grey', 100),
+            color: getCssVar('white', 100),
             '&:hover': { background: getCssVar('yellow', 700), },
             '&:active': { background: getCssVar('yellow', 900), },
           },
           containedSecondary: {
-            background: getCssVar('grey', 900),
-            color: getCssVar('grey', 100),
-            '&:hover': { background: getCssVar('grey', 950), },
-            '&:active': { background: getCssVar('grey', 975), },
+            background: getCssVar('grey', 200),
+            color: getCssVar('grey', 900),
+            '&:hover': { background: getCssVar('grey', 300), },
+            '&:active': { background: getCssVar('grey', 400), },
           },
           textPrimary: {
             color: getCssVar('blue', 300),
@@ -229,10 +234,28 @@ const DARK_THEME = (theme: ITheme) => {
           root: () => ({
             fontFamily,
             fontWeight: getCssVar('font', 'semi-bold'),
+            borderRadius: 4,
+            outline: 0,
+
+            '&::placeholder': {
+              color: `${getCssVar('black', 100)} !important`,
+            }
           }),
         },
       },
       MuiTooltip: { styleOverrides: { tooltip: { fontSize: getCssVar('font', 'common'), }, }, },
+      MuiCard: {
+        styleOverrides: {
+          root: () => ({
+            margin: 0,
+            background: getCssVar('grey', 50),
+            border: `1px solid ${getCssVar('grey', 100)}`,
+            borderRadius: 24,
+            boxShadow: `3px 2px 9px 1px ${getCssVar('grey', 100)}`,
+            overflow: 'visible',
+          }),
+        },
+      },
     },
   });
 };

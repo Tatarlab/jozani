@@ -1,4 +1,4 @@
-import { TextField as MuiTextField, TextFieldProps } from '@mui/material';
+import { TextField as MuiTextField } from '@mui/material';
 import styled from 'styled-components';
 import { ITextFieldProps } from '../types';
 import { getCssVar } from '../../../styles';
@@ -15,15 +15,44 @@ export const StyledTextField: React.FC<ITextFieldProps> = styled(MuiTextField)`
     border: 1px solid ${({ error }) => (error
       ? getCssVar('red', 500)
       : getCssVar('grey', 200))};
+    border-width: ${({ isBranding = false }) => (isBranding
+      ? 0
+      : 1)};
     border-radius: .8rem;
     font-size: ${getCssVar('font', 'large')};
+
+    &:before {
+      content: '';
+      display: ${({ isBranding = false }: ITextFieldProps) => (isBranding
+        ? 'block'
+        : 'none')};
+      position: absolute;
+      pointer-events: none;
+      background-image: linear-gradient(333deg, #ffc107, #ff2222, #8c18a0, #03a9f4);
+      mask-image: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px), linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px);
+      -webkit-mask-position-x: 0%, 0%;
+      -webkit-mask-position-y: 0%, 0%;
+      mask-size: auto, auto;
+      mask-repeat: repeat, repeat;
+      mask-origin: content-box, border-box;
+      mask-clip: content-box, border-box;
+      mask-mode: match-source, match-source;
+      mask-composite: exclude;
+      animation-timeline: auto;
+      animation-range-start: normal;
+      animation-range-end: normal;
+      inset: 0px;
+      border-radius: 20px;
+      padding: 2px;
+      animation: 3s linear 0s infinite normal none running rotate;
+    }
   }
 
   &.contrast > div, & > div[class*=focused] {
     background: ${getCssVar('white', 100)};
-    border: 1px solid ${({ error }) => (error
+    /* border: 1px solid ${({ error }) => (error
       ? getCssVar('red', 500)
-      : getCssVar('grey', 200))};
+      : getCssVar('grey', 200))}; */
   }
 
   input {

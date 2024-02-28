@@ -14,6 +14,7 @@ export const StyledCard: React.FC<ICardProps> = styled(MuiCard)`
   width: ${({ isFullWidth = false }: ICardProps) => (isFullWidth ? '100%' : 'auto')};
   height: ${({ isFullHeight = false }: ICardProps) => (isFullHeight ? '100%' : 'auto')};
   transition: all .27s;
+  -webkit-tap-highlight-color: transparent;
 
   &:before {
     content: '';

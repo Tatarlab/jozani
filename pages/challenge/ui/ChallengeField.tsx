@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import TextField from '../../../lib/components/textfield';
 import { ITextFieldProps } from '../../../lib/components/textfield/types';
 import { IconUpdate } from '../../../lib/components/icons';
+import Typography from '../../../lib/components/typography';
 
 type IChallengeFieldProps = Pick<ITextFieldProps,
   'isError' |
@@ -29,21 +30,31 @@ const ChallengeField: React.FC<IChallengeFieldProps> = ({
   };
 
   return (
-    <TextField
-      isFullWidth
-      hiddenLabel
-      autoFocus
-      isError={isError}
-      isDisabled={isDisabled}
-      placeholder="Few words to describe the challenge"
-      helperText="Few words to describe the challenge"
-      errorText="Required Minimum 10 symbols"
-      label="Challenge name"
-      value={name}
-      InputProps={{ endAdornment: <IconUpdate fill="currentColor" />, }}
-      onInput={onInput}
-      onChange={onChange}
-    />
+    <>
+      <Typography variant="h6">
+        Challenge name
+      </Typography>
+
+      <div style={{ marginTop: '1.6rem' }} />
+
+      <TextField
+        isBranding
+        isFullWidth
+        hiddenLabel
+        autoFocus
+        isError={isError}
+        isDisabled={isDisabled}
+        size="large"
+        placeholder="Few words to describe the challenge"
+        helperText="Few words to describe the challenge"
+        errorText="Required Minimum 10 symbols"
+        // label="Challenge name"
+        value={name}
+        InputProps={{ endAdornment: <IconUpdate fill="currentColor" />, }}
+        onInput={onInput}
+        onChange={onChange}
+      />
+    </>
   );
 };
 
