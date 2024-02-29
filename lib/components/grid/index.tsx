@@ -6,9 +6,12 @@ const Grid: React.FC<IGridProps> = ({
   outgap = 16, children, style,
 }) => (
   <div style={{
-    padding: outgap,
+    padding: Array.isArray(outgap)
+      ? `${outgap[0]}px ${outgap[1]}px`
+      : outgap,
+    ...style,
   }}>
-    <StyledGrid style={style}>
+    <StyledGrid>
       {children}
     </StyledGrid>
   </div>

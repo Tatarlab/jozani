@@ -23,23 +23,23 @@ const BaseApp: React.FC<AppProps> = (props) => {
  
       <App {...props}>
         <Head>
-          <title>Pruebat</title>
+          <title>Pruebate | Unique challenge experience</title>
 
-          <meta property="og:title" content="Pruebat" />
+          <meta property="og:title" content="Pruebate" />
 
-          <meta property="og:site_name" content="Pruebat" />
+          <meta property="og:site_name" content="Pruebate" />
 
-          <meta property="og:description" content="Pruebat" />
+          <meta property="og:description" content="Pruebate | Unique challenge experience. Connect people via challenges" />
 
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-          <meta name="theme-color" content="#141618" />
+          <meta name="theme-color" content="#03a9f4" />
 
           <meta name="robots" content="noindex, nofollow, notranslate" />
 
-          <link rel="icon" href="/event/images/favicon_64x64.png" />
+          <link rel="icon" href="/assets/favicon_64x64.png" />
 
-          <link rel="apple-touch-icon" href="/event/images/logo192.png" />
+          <link rel="apple-touch-icon" href="/assets/logo192.png" />
         </Head>
 
         <main className={cn('app')}>

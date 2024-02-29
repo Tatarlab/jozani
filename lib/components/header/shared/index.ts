@@ -16,6 +16,8 @@ export const StyledHeader = styled.header`
 `;
 
 export const StyledLogo = styled.a`
+  display: flex;
+  align-items: center;
   font-family: 'Comfortaa', sans-serif;
   font-size: 2.4rem;
   font-weight: 400;

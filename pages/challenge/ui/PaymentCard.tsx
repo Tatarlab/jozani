@@ -66,7 +66,7 @@ const PaymentCard: React.FC<IPaymentCardProps> = ({
 
           <div>
             <Typography variant="body1">
-            You are willing to send any amount more than $10
+            Send any amount more than $10
             </Typography>
           </div>
         </Typography>

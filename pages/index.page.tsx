@@ -4,72 +4,144 @@ import { Card } from '../lib/components/card';
 import Typography from '../lib/components/typography';
 import { getCssVar } from '../lib/styles';
 import { Button } from '../lib/components/button';
+import Grid from '../lib/components/grid';
+import Row from '../lib/components/row';
+import Col from '../lib/components/col';
+import {
+  IconArrowBack, IconArrowNext 
+} from '../lib/components/icons';
 
 const IndexPage: React.FC = () => {
   const [asd] = useState();
 
   return (
     <div>
-      <Card
-        style={{
-          justifyContent: 'center',
-          background: 'linear-gradient(106deg, #f09f6c, #ef6400);' 
-        }}
+      <Grid outgap={[16, 0]}>
+        <Typography
+          variant="h1"
+          fontWeight="bold"
+          fontStyle="italic"
+          lineHeight={0.9}
+          letterSpacing={-1.4}
+          style={{
+            backgroundImage: `linear-gradient(333deg, #ffc107, #ff2222, #8c18a0, #03a9f4)`,
+            ['-webkit-text-fill-color' as string]: 'transparent',
+            ['-webkit-background-clip' as string]: 'text',
+            backgroundClip: 'text',
+            overflow: 'visible',
+            // animation: `3s linear 0s infinite normal none running hue-rotate`,
+          }}
+        >
+          Unique challenge experience
+        </Typography>
+
+        <div style={{ marginTop: '1.6rem' }} />
+
+        <Typography
+          variant="h5"
+          // fontWeight={500}
+          fontStyle="italic"
+        >
+          Connect people via challenges
+        </Typography>
+      </Grid>
+
+      <Grid
+        outgap={0}
+        style={{ margin: '1.6rem 0' }}
       >
-        <a
-          href="/challenge?slug=new"
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-        />
+        <Row spacing={2}>
+          <Col>
+            <Card
+              style={{
+                justifyContent: 'center',
+                background: 'linear-gradient(106deg, #f09f6c, #ef6400)',
+              }}
+            >
+              <a
+                href="/challenge?slug=new"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                }}
+              />
 
-        <img
-          src="/assets/pay-challenge.png"
-          style={{
-            marginTop: '-15%',
-            maxWidth: '100%',
-            width: '80%'
-          }}
-        />
+              <img
+                src="/assets/pay-challenge.png"
+                style={{
+                  marginTop: '-15%',
+                  maxWidth: '100%',
+                  width: '80%'
+                }}
+              />
 
-        <Typography variant="h3" fontWeight="bold" fontStyle="italic"
-          color={getCssVar('white', 100)}>
-          Challenge friend
-        </Typography>
-      </Card>
+              <Typography
+                display="flex"
+                width="100%"
+                variant="h4"
+                alignItems="center"
+                fontWeight="bold"
+                fontStyle="italic"
+                color={getCssVar('white', 100)}
+              >
+                Challenge friend
 
-      <Card style={{ background: 'linear-gradient(106deg, #829cf3, #294dda);' }}>
-        <a
-          href="/find-challenge"
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-          }}
-        />
+                <i style={{ marginLeft: '1rem' }}>
+                  <IconArrowNext
+                    width={24}
+                    height={24}
+                  />
+                </i>
+              </Typography>
+            </Card>
+          </Col>
 
-        <img src="/assets/create-challenge.png" style={{
-          marginLeft: 'auto',
-          maxWidth: '100%',
-          width: '80%',
-        }} />
+          <Col>
+            <Card style={{ background: 'linear-gradient(106deg, #829cf3, #294dda)' }}>
+              <a
+                href="/find-challenge"
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                }}
+              />
 
-        <Typography variant="h3" fontWeight="bold" fontStyle="italic"
-          color={getCssVar('white', 100)}>
-          Find a challenge
-        </Typography>
-      </Card>
+              <img src="/assets/create-challenge.png" style={{
+                marginLeft: 'auto',
+                maxWidth: '100%',
+                width: '80%',
+              }} />
 
-      <div
+              <Typography
+                variant="h3"
+                fontWeight="bold"
+                fontStyle="italic"
+                color={getCssVar('white', 100)}
+              >
+                Find challenge
+
+                <i style={{ marginLeft: '1rem' }}>
+                  <IconArrowNext
+                    width={24}
+                    height={24}
+                  />
+                </i>
+              </Typography>
+            </Card>
+          </Col>
+        </Row>
+      </Grid>
+
+      <Grid
+        outgap={[50, 16]}
         style={{
-          margin: '5rem -1.6rem 0',
-          padding: '5rem 1.6rem',
+          margin: '0 -1.6rem',
           background: getCssVar('black', 100),
         }}
       >
@@ -82,8 +154,7 @@ const IndexPage: React.FC = () => {
             color: getCssVar('white', 80),
           }}
         >
-          Best way to engage 
-          {' '}
+          {'Best way to engage  '}
 
           <i>funds</i>
         </Typography>
@@ -110,13 +181,11 @@ const IndexPage: React.FC = () => {
           {'\''}
           s completed challenge
         </Typography>
-      </div>
+      </Grid>
 
-      <div
-        style={{
-          margin: '0 -1.6rem',
-          padding: '5rem 1.6rem',
-        }}
+      <Grid
+        outgap={[50, 16]}
+        style={{ margin: '0 -1.6rem', }}
       >
         <Typography
           variant="h2"
@@ -130,18 +199,19 @@ const IndexPage: React.FC = () => {
         <Typography variant="h6" textAlign="center">
           Deposited funds are sent to friends or charities
         </Typography>
-      </div>
+      </Grid>
 
-      <div style={{ padding: '1.6rem 0' }}>
+      <Grid style={{ padding: '1.6rem 0' }}>
         <Button
           isBranding
           fullWidth
           variant="contained"
           size="large"
+          href="/challenge?slug=new"
         >
-          Challenge Friend Now
+          Start Challenge Now
         </Button>
-      </div>
+      </Grid>
     </div>
   );
 };

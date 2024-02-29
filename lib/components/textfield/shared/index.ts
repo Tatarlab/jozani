@@ -28,7 +28,9 @@ export const StyledTextField: React.FC<ITextFieldProps> = styled(MuiTextField)`
         : 'none')};
       position: absolute;
       pointer-events: none;
-      background-image: linear-gradient(333deg, #ffc107, #ff2222, #8c18a0, #03a9f4);
+      background-image: ${({ error = false }) => (error
+        ? 'linear-gradient(0deg, #ff2222, #ff2222)'
+        : 'linear-gradient(333deg, #ffc107, #ff2222, #8c18a0, #03a9f4)')};
       mask-image: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px), linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px);
       -webkit-mask-position-x: 0%, 0%;
       -webkit-mask-position-y: 0%, 0%;
@@ -44,7 +46,9 @@ export const StyledTextField: React.FC<ITextFieldProps> = styled(MuiTextField)`
       inset: 0px;
       border-radius: 20px;
       padding: 2px;
-      animation: 3s linear 0s infinite normal none running rotate;
+      animation: ${({ error = false }) => (error
+        ? 'none'
+        : '3s linear 0s infinite normal none running hue-rotate')};
     }
   }
 

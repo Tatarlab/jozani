@@ -103,6 +103,12 @@ const CategoryBox: React.FC<ICategoryBoxProps> = ({
     <section>
       <Typography variant="h6">
         Charity Initiative
+
+        <div>
+          <Typography variant="body1">
+            Stuck challenges donate funds to charity
+          </Typography>
+        </div>
       </Typography>
 
       <div

@@ -1,6 +1,7 @@
 import React, {
   ReactNode, useState 
 } from 'react';
+import { Dinero } from '../../../lib/domains';
 import TextField from '../../../lib/components/textfield';
 import {
   IconPlus, IconStar, IconTrash, 
@@ -120,21 +121,6 @@ const TodoListCard: React.FC<ITodoListCardProps> = ({
 
         <Grid>
           <Row spacing={2}>
-            <Col mobile="auto" justifyContent="center">
-              <Typography
-                variant="body2"
-                alignItems="center"
-                gap={8}
-              >
-                {`Reward: `}
-
-                <span style={{ fontWeight: 500 }}>
-                  {/* {`$${walletLastIncome?.amount || 0}`} */}
-                  {reward}
-                </span>
-              </Typography>
-            </Col>
-
             <Col mobile>
               <Button
                 fullWidth
@@ -146,6 +132,17 @@ const TodoListCard: React.FC<ITodoListCardProps> = ({
                 // onClick={onCreateChallenge}
               >
                 Create
+
+                <span
+                  style={{
+                    position: 'absolute',
+                    right: '1.6rem',
+                    fontWeight: 500,
+                  }}
+                >
+                  {/* {`$${walletLastIncome?.amount || 0}`} */}
+                  {`~${new Dinero({ amount: reward })}`}
+                </span>
               </Button>
             </Col>
           </Row>

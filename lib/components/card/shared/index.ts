@@ -39,10 +39,10 @@ export const StyledCard: React.FC<ICardProps> = styled(MuiCard)`
     inset: 0px;
     border-radius: 20px;
     padding: 2px;
-    animation: 3s linear 0s infinite normal none running rotate;
+    animation: 3s linear 0s infinite normal none running hue-rotate;
   }
 
-  @keyframes rotate {
+  @keyframes hue-rotate {
     100% {
       filter: hue-rotate(-360deg);
     }

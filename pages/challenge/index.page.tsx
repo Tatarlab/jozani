@@ -38,6 +38,7 @@ const ChallengePage: React.FC = () => {
     id, name, todo,
     category,
     setId,
+    setName,
     updateTodo,
     deleteTodo,
     setCategory,
@@ -117,6 +118,7 @@ const ChallengePage: React.FC = () => {
               isError={!isChallengeNameValid && (isDirty || isLastIncomeConfirmed)}
               isDisabled={isLoading && isEditable}
               onInput={() => setIsDirty(true)}
+              onChange={setName}
             />
           </Grid>
 

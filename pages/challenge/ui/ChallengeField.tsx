@@ -4,12 +4,13 @@ import { ITextFieldProps } from '../../../lib/components/textfield/types';
 import { IconUpdate } from '../../../lib/components/icons';
 import Typography from '../../../lib/components/typography';
 
-type IChallengeFieldProps = Pick<ITextFieldProps,
+interface IChallengeFieldProps extends Pick<ITextFieldProps,
   'isError' |
   'isDisabled' |
-  'onInput' |
-  'onChange'
->;
+  'onInput'
+> {
+  onChange?(name: string): void;
+};
 
 const ChallengeField: React.FC<IChallengeFieldProps> = ({
   isError,
@@ -46,7 +47,7 @@ const ChallengeField: React.FC<IChallengeFieldProps> = ({
         isDisabled={isDisabled}
         size="large"
         placeholder="Few words to describe the challenge"
-        helperText="Few words to describe the challenge"
+        helperText="A short playful description"
         errorText="Required Minimum 10 symbols"
         // label="Challenge name"
         value={name}
