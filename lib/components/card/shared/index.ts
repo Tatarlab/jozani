@@ -1,7 +1,7 @@
 import { Card as MuiCard } from '@mui/material';
 import styled from 'styled-components';
 import { getCssVar } from '../../../styles';
-import { BREAKPOINTS } from '../../../theme';
+import { BREAKPOINTS, getBrandingGradient } from '../../../theme';
 import { ICardProps } from '../types';
 
 export const StyledCard: React.FC<ICardProps> = styled(MuiCard)`
@@ -23,7 +23,7 @@ export const StyledCard: React.FC<ICardProps> = styled(MuiCard)`
       : 'none')};
     position: absolute;
     pointer-events: none;
-    background-image: linear-gradient(333deg, #ffc107, #ff2222, #8c18a0, #03a9f4);
+    background-image: ${({ isBranding = false }) => getBrandingGradient(isBranding)};
     mask-image: linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px), linear-gradient(rgb(255, 255, 255) 0px, rgb(255, 255, 255) 0px);
     -webkit-mask-position-x: 0%, 0%;
     -webkit-mask-position-y: 0%, 0%;

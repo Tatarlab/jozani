@@ -57,101 +57,99 @@ const PaymentCard: React.FC<IPaymentCardProps> = ({
 
   return (
     <>
-      <Grid>
-        <Typography variant="h6">
-          Top-up
-          {' '}
+      <Typography variant="h6">
+        Top-up
+        {' '}
 
-          {currency}
+        {currency}
 
-          <div>
-            <Typography variant="body1">
-            Send any amount more than $10
-            </Typography>
-          </div>
-        </Typography>
-
-        <div style={{ marginTop: '1.6rem' }} />
-
-        <Card style={{ borderRadius: 6 }}>
-
-          <Grid outgap={0}>
-            <Row spacing={2}>
-              <Col mobile="auto">
-                <img
-                  src={walletAddressDataURL}
-                  style={{
-                    width: 64,
-                    height: 64,
-                    background: '#ccc' 
-                  }}
-                />
-              </Col>
-
-              <Col mobile={9}>
-                <div>
-                  <Typography variant="caption">
-                    Network
-                  </Typography>
-
-                  <Typography variant="body1">
-                    {network}
-                  </Typography>
-                </div>
-
-                <div style={{ marginTop: 'auto' }} />
-
-                <div>
-                  <Typography variant="caption">
-                    Wallet address
-                  </Typography>
-
-                  <div style={{ display: 'flex' }}>
-                    <Typography
-                      noWrap
-                      variant="body1"
-                      style={{
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis' 
-                      }}
-                    >
-                      {walletAddress}
-                    </Typography>
-
-                    <i
-                      style={{ marginLeft: 2 }}
-                      onClick={() => copy2Clipboard(walletAddress)}
-                    >
-                      <IconCopy fill={getCssVar('grey', 400)} />
-                    </i>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </Grid>
-        </Card>
-      </Grid>
-
-      <Grid>
-        <Card
-          style={{
-            background: getCssVar('yellow', 100),
-            borderRadius: 6 
-          }}
-        >
-          <Typography variant="caption" color={getCssVar('grey', 900)}>
-            <ul>
-              <li>
-                Make sure that the network matches recepient
-                {'\''}
-                s network to avoid money lost.
-              </li>
-
-              <li>Deposits of less then $10 are subject to a $5 fee.</li>
-            </ul>
+        <div>
+          <Typography variant="body1">
+          Send any amount more than $10
           </Typography>
-        </Card>
-      </Grid>
+        </div>
+      </Typography>
+
+      <div style={{ marginTop: '1.6rem' }} />
+
+      <Card style={{ borderRadius: 6 }}>
+
+        <Grid outgap={0}>
+          <Row spacing={2}>
+            <Col mobile="auto">
+              <img
+                src={walletAddressDataURL}
+                style={{
+                  width: 64,
+                  height: 64,
+                  background: '#ccc' 
+                }}
+              />
+            </Col>
+
+            <Col mobile={9}>
+              <div>
+                <Typography variant="caption">
+                  Network
+                </Typography>
+
+                <Typography variant="body1">
+                  {network}
+                </Typography>
+              </div>
+
+              <div style={{ marginTop: 'auto' }} />
+
+              <div>
+                <Typography variant="caption">
+                  Wallet address
+                </Typography>
+
+                <div style={{ display: 'flex' }}>
+                  <Typography
+                    noWrap
+                    variant="body1"
+                    style={{
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis' 
+                    }}
+                  >
+                    {walletAddress}
+                  </Typography>
+
+                  <i
+                    style={{ marginLeft: 2 }}
+                    onClick={() => copy2Clipboard(walletAddress)}
+                  >
+                    <IconCopy fill={getCssVar('grey', 400)} />
+                  </i>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Grid>
+      </Card>
+
+      <div style={{ marginTop: '1.6rem' }} />
+
+      <Card
+        style={{
+          background: getCssVar('yellow', 100),
+          borderRadius: 6 
+        }}
+      >
+        <Typography variant="caption" color={getCssVar('grey', 900)}>
+          <ul>
+            <li>
+              Make sure that the network matches recepient
+              {'\''}
+              s network to avoid money lost.
+            </li>
+
+            <li>Deposits of less then $10 are subject to a $5 fee.</li>
+          </ul>
+        </Typography>
+      </Card>
     </>
   );
 };

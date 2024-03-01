@@ -25,11 +25,21 @@ const BaseApp: React.FC<AppProps> = (props) => {
         <Head>
           <title>Pruebate | Unique challenge experience</title>
 
-          <meta property="og:title" content="Pruebate" />
+          <meta property="og:type" content="website" />
+
+          <meta property="og:image" content="https://pruebate.us/assets/pruebate.jpg" />
+
+          <meta property="og:image:width" content="1200" />
+
+          <meta property="og:image:height" content="630" />
 
           <meta property="og:site_name" content="Pruebate" />
 
+          <meta property="og:title" content="Pruebate" />
+
           <meta property="og:description" content="Pruebate | Unique challenge experience. Connect people via challenges" />
+
+          <meta property="og:url" content="https://pruebate.us" />
 
           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 

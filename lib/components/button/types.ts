@@ -3,5 +3,5 @@ import {
 } from '@mui/material';
 
 export interface IButtonProps extends ButtonProps {
-  isBranding?: boolean;
+  isBranding?: boolean | number;
 };

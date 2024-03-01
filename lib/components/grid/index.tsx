@@ -1,20 +1,29 @@
 import React from 'react';
-import { StyledGrid } from './shared';
+import { GridContainer, GridWrapper, StyledGrid } from './shared';
 import { IGridProps } from './types';
 
 const Grid: React.FC<IGridProps> = ({
-  outgap = 16, children, style,
+  isAdaptive = false,
+  outgap = 16,
+  children,
+  style,
+  backgroundStyle = 'transparent',
 }) => (
-  <div style={{
-    padding: Array.isArray(outgap)
-      ? `${outgap[0]}px ${outgap[1]}px`
-      : outgap,
-    ...style,
-  }}>
+  <GridWrapper
+    isAdaptive={isAdaptive}
+    outgap={outgap}
+    style={style}
+    backgroundStyle={backgroundStyle}
+  >
     <StyledGrid>
-      {children}
+      <GridContainer
+        isAdaptive={isAdaptive}
+        outgap={outgap}
+      >
+        {children}
+      </GridContainer>
     </StyledGrid>
-  </div>
+  </GridWrapper>
 );
 
 export default Grid;

@@ -5,6 +5,7 @@ import { IBlockchainStore } from './types';
 import { INITIAL_STATE, WALLET_ADDRESS_KEY } from './constants';
 import { LocalStorage } from '../../domains';
 import { getFirebaseCallable } from '../../../entities/firebase';
+import { getStoreOptions } from '..';
 
 export const useBlockchain = create<IBlockchainStore>()(devtools((set, get) => ({
   ...INITIAL_STATE,
@@ -73,4 +74,4 @@ export const useBlockchain = create<IBlockchainStore>()(devtools((set, get) => (
       };
     }    
   },
-})))
+}), getStoreOptions('useBlockchain')))

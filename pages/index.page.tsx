@@ -16,7 +16,7 @@ const IndexPage: React.FC = () => {
 
   return (
     <div>
-      <Grid outgap={[16, 0]}>
+      <Grid isAdaptive outgap={[16, 0]}>
         <Typography
           variant="h1"
           fontWeight="bold"
@@ -29,7 +29,6 @@ const IndexPage: React.FC = () => {
             ['-webkit-background-clip' as string]: 'text',
             backgroundClip: 'text',
             overflow: 'visible',
-            // animation: `3s linear 0s infinite normal none running hue-rotate`,
           }}
         >
           Unique challenge experience
@@ -47,6 +46,7 @@ const IndexPage: React.FC = () => {
       </Grid>
 
       <Grid
+        isAdaptive
         outgap={0}
         style={{ margin: '1.6rem 0' }}
       >
@@ -139,12 +139,19 @@ const IndexPage: React.FC = () => {
       </Grid>
 
       <Grid
+        isAdaptive
         outgap={[50, 16]}
         style={{
+          position: 'relative',
           margin: '0 -1.6rem',
-          background: getCssVar('black', 100),
         }}
+        backgroundStyle="#15191d"
       >
+        <div style={{
+          position: 'absolute',
+          background: getCssVar('black', 100),
+        }} />
+
         <Typography
           variant="h2"
           textAlign="center"
@@ -184,6 +191,7 @@ const IndexPage: React.FC = () => {
       </Grid>
 
       <Grid
+        isAdaptive
         outgap={[50, 16]}
         style={{ margin: '0 -1.6rem', }}
       >
@@ -201,7 +209,10 @@ const IndexPage: React.FC = () => {
         </Typography>
       </Grid>
 
-      <Grid style={{ padding: '1.6rem 0' }}>
+      <Grid
+        isAdaptive
+        style={{ padding: '1.6rem 0' }}
+      >
         <Button
           isBranding
           fullWidth

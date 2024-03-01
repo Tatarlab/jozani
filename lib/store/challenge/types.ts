@@ -1,26 +1,26 @@
 import { Category } from '../../components/icons/shared/categories/types';
 import { Currency } from '../blockchain/types';
 
-export interface IChallengeState {
-  id: string;
+export interface IChallenge {
+  id?: string;
   name: string;
-  todo: string[];
   reward: number;
   currency: Currency;
   category: Category;
+  createdAt: Date | number;
+}
+
+export interface IChallengeState {
+  challenges: Record<string, IChallenge>;
+  challengesList: IChallenge[];
+  limit?: number;
+  page?: number;
 }
   
 export interface IChallengeMethods {
-  setId(id: string): void;
   setName(name: string): void;
-  getChallenge(): Promise<{
-    id: string;
-    name: string;
-    reward: number;
-    currency: Currency;
-  } | any>;
-  updateTodo(name: string): void;
-  deleteTodo(id: number): void;
+  getChallenge(id: string): Promise<IChallenge>;
+  getChallengeAll(): Promise<IChallenge[]>;
   setCategory(category: Category): void;
 }
 

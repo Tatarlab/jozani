@@ -9,21 +9,21 @@ interface IChallengeFieldProps extends Pick<ITextFieldProps,
   'isDisabled' |
   'onInput'
 > {
+  isNew?: boolean;
+  name: string;
   onChange?(name: string): void;
 };
 
 const ChallengeField: React.FC<IChallengeFieldProps> = ({
+  isNew = false,
   isError,
   isDisabled,
+  name,
   onInput,
   onChange: _onChange,
 }) => {
-  const [name, setName] = useState('');
-
   const onChange = (e) => {
     const { value } = e.target;
-
-    setName(value);
 
     if (_onChange) {
       _onChange(value);
@@ -33,28 +33,39 @@ const ChallengeField: React.FC<IChallengeFieldProps> = ({
   return (
     <>
       <Typography variant="h6">
-        Challenge name
+        Challenge Info
       </Typography>
 
       <div style={{ marginTop: '1.6rem' }} />
 
-      <TextField
-        isBranding
-        isFullWidth
-        hiddenLabel
-        autoFocus
-        isError={isError}
-        isDisabled={isDisabled}
-        size="large"
-        placeholder="Few words to describe the challenge"
-        helperText="A short playful description"
-        errorText="Required Minimum 10 symbols"
-        // label="Challenge name"
-        value={name}
-        InputProps={{ endAdornment: <IconUpdate fill="currentColor" />, }}
-        onInput={onInput}
-        onChange={onChange}
-      />
+      {!isNew && (
+        <Typography
+          isBranding
+          variant="body2"
+        >
+          {name}
+        </Typography>
+      )}
+
+      {isNew && (
+        <TextField
+          isBranding
+          isFullWidth
+          hiddenLabel
+          autoFocus
+          isError={isError}
+          isDisabled={isDisabled}
+          size="large"
+          placeholder="Few words to describe the challenge"
+          helperText="A short playful description"
+          errorText="Required Minimum 10 symbols"
+          // label="Challenge name"
+          value={name}
+          InputProps={{ endAdornment: <IconUpdate fill="currentColor" />, }}
+          onInput={onInput}
+          onChange={onChange}
+        />
+      )}
     </>
   );
 };

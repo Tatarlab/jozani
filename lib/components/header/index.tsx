@@ -8,8 +8,9 @@ import { IconArrowNext, IconChevronRight, IconPlus, LogoPruebate } from '../icon
 export const Header: React.FC = () => {
   const router = useRouter();
 
+  const isNew = router.query?.slug === 'new';
   const isChallengeRoute = /challenge/i.test(router.asPath);
-  const isStartButtonVisible = !(isChallengeRoute && router.query?.slug === 'new');
+  const isStartButtonVisible = !(isChallengeRoute && isNew);
 
   return (
     <StyledHeader>
@@ -23,7 +24,7 @@ export const Header: React.FC = () => {
         pruebate
       </StyledLogo>
 
-      {isChallengeRoute && (
+      {isChallengeRoute && isNew && (
         <Typography
           variant="body2"
           textAlign="center"
@@ -41,7 +42,7 @@ export const Header: React.FC = () => {
           variant="contained"
           style={{ marginLeft: 'auto', alignItems: 'center' }}
         >
-          Start Challenge
+          New Challenge
 
           <i style={{ marginLeft: '1rem', lineHeight: 0.8 }}>
             <IconPlus

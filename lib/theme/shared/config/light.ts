@@ -20,7 +20,7 @@ import { getSizeUnit } from '../helpers';
 
 const PALETTE = {
   primary: blue[500],
-  secondary: grey[100],
+  secondary: grey[500],
   info: grey[900],
   success: green[500],
   error: red[300],
@@ -128,6 +128,13 @@ const LIGHT_THEME = (theme: ITheme) => {
     components: {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       MuiListItem: { styleOverrides: { root: { width: 'auto', }, }, },
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            lineHeight: 1.1,
+          },
+        },
+      },
       MuiButton: {
         styleOverrides: {
           root: {
@@ -171,31 +178,31 @@ const LIGHT_THEME = (theme: ITheme) => {
             '&:active': { background: getCssVar('grey', 400), },
           },
           textPrimary: {
-            color: getCssVar('blue', 300),
+            color: getCssVar('blue', 500),
             '&:hover': {
               background: 'transparent',
-              color: getCssVar('blue', 400),
+              color: getCssVar('blue', 600),
             },
             '&:active': {
               background: 'transparent',
-              color: getCssVar('blue', 500),
+              color: getCssVar('blue', 700),
             },
           },
           textSecondary: {
-            color: getCssVar('grey', 100),
-            '&:hover': { background: getCssVar('grey', 950), },
-            '&:active': { background: getCssVar('grey', 975), },
+            color: getCssVar('grey', 500),
+            '&:hover': { color: getCssVar('grey', 600), },
+            '&:active': { color: getCssVar('grey', 700), },
           },
           textError: {
-            background: getCssVar('grey', 900),
-            color: getCssVar('red', 300),
+            background: getCssVar('grey', 300),
+            color: getCssVar('red', 500),
             '&:hover': {
-              background: getCssVar('grey', 900),
-              color: getCssVar('red', 400),
+              background: getCssVar('grey', 300),
+              color: getCssVar('red', 600),
             },
             '&:active': {
-              background: getCssVar('grey', 975),
-              color: getCssVar('red', 400),
+              background: getCssVar('grey', 400),
+              color: getCssVar('red', 700),
             },
           },
         },

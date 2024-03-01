@@ -1,28 +1,34 @@
 import { create } from 'zustand';
-import { pick } from 'lodash';
+import { produce } from 'immer';
+import { forEach, pick } from 'lodash';
 import { devtools } from 'zustand/middleware';
 import { IChallengeStore } from './types';
 import { INITIAL_STATE } from './constants';
 import { getFirebaseCallable } from '../../../entities/firebase';
+import { getStoreOptions } from '..';
 
 export const useChallenge = create<IChallengeStore>()(devtools((set, get) => ({
   ...INITIAL_STATE,
 
-  setId: (id) => {
-    if (!id) {
-      return;
-    }
+  setName: (name) => set(produce((state) => {
+    state.challenges.new.name = name;
+  })),
 
-    const { getChallenge } = get();
-
-    set({ id });
-    getChallenge();
+  setCategory: (category) => {
+    set(produce((state) => {
+      state.challenges.new.category = category;
+    }));
   },
 
-  setName: (name) => set({ name }),
+  getChallenge: async (id: string) => {
+    const { challenges } = get();
 
-  getChallenge: async () => {
-    const { id } = get();
+    const c = challenges[id];
+
+    if (c) {
+      return c;
+    }
+
     const getChallenge = getFirebaseCallable('getChallenge');
     
     const { data } = await getChallenge({ id });
@@ -30,31 +36,54 @@ export const useChallenge = create<IChallengeStore>()(devtools((set, get) => ({
     const {
       name, reward, currency,
     } = challenge;
+    
+    set(produce((state) => {
+      const prevChallenge = state.challenges[id] || {};
+      const { name: prevName, reward: prevReward, currency: prevCurrency } = prevChallenge;
 
-    set(({ name, reward, currency }));
+      state.challenges[id] = {
+        ...prevChallenge,
+        name: name || prevName,
+        reward: reward || prevReward,
+        currency: currency || prevCurrency,
+      };
+    }));
+    
 
     return challenge;
   },
 
-  updateTodo: (name) => {
-    const { todo } = get();
+  getChallengeAll: async () => {
+    const { limit = 5, page = 1 } = get();
+    const getChallengeAll = getFirebaseCallable('getChallengeAll');
+    const { data } = await getChallengeAll({ limit, page });
+    const challenges = forEach(data, (challenge) => {
+      const { id, name, reward, currency, category } = pick<any>(challenge, ['id', 'name', 'reward', 'currency', 'category']);
 
-    if (!name) {
-      return;
+      set(produce((state) => {
+        state.challenges[id] = {
+          id,
+          name,
+          reward,
+          currency,
+          category,
+        };
+      }))
+    });
+
+    return challenges;
+  },
+}), getStoreOptions('useChallenge')));
+
+useChallenge.subscribe(
+  (state, prev) => {
+    const { new: currNew, ...currChallenges } = state.challenges;
+    const challengesArray = Object.values(currChallenges);
+    const { new: prevNew, ... prevChallenges } = prev.challenges;
+    const prevChallengesArray = Object.values(prevChallenges);
+
+    if (challengesArray.length > prevChallengesArray.length) {
+      useChallenge.setState({ challengesList: challengesArray });
     }
-
-    todo.push(name);
-
-    set({ todo });
-  },
-
-  deleteTodo: (id) => {
-    const { todo } = get();
-
-    todo.splice(id, 1);
-
-    set({ todo });
-  },
-
-  setCategory: (category) => set({ category }),
-})))
+  }
+);

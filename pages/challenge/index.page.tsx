@@ -1,7 +1,9 @@
 import React, {
   useEffect, useState 
 } from 'react';
-import { get } from 'lodash';
+import {
+  get, pick 
+} from 'lodash';
 import Typography from '../../lib/components/typography';
 import Divider from '../../lib/components/divider';
 import Grid from '../../lib/components/grid';
@@ -9,8 +11,7 @@ import Row from '../../lib/components/row';
 import Col from '../../lib/components/col';
 import { Button } from '../../lib/components/button';
 import {
-  CATEGORIES,
-  IconCategory,
+  IconArrowNext,
   IconShare, IconTelegram 
 } from '../../lib/components/icons';
 import { useBlockchain } from '../../lib/store/blockchain';
@@ -18,38 +19,42 @@ import { createChallenge, } from './helpers';
 import { useChallenge } from '../../lib/store/challenge';
 import {
   CategoryBox,
-  ChallengeField, PaymentCard, TodoListCard 
+  ChallengeField, PaymentCard, CreateButton,
 } from './ui';
-import { Card } from '../../lib/components/card';
 import { useRouter } from '../../lib/models';
+import { Category } from '../../lib/components/icons/shared/categories/types';
+import { Currency } from '../../lib/store/blockchain/types';
 
 const ChallengePage: React.FC = () => {
   const router = useRouter();
   
-  const { slug } = router.query;
+  const { slug = 'new' } = router.query;
 
   const {
-    currency,
+    currency: walletCurrency,
     walletAddress,
     walletLastIncome,
   } = useBlockchain();
 
   const {
-    id, name, todo,
-    category,
-    setId,
+    challenges,
     setName,
-    updateTodo,
-    deleteTodo,
     setCategory,
+    getChallenge,
   } = useChallenge();
 
   const [isDirty, setIsDirty] = useState(false);
   const [isLastIncomeConfirmed, setIsLastIncomeConfirmed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const isChallengeNameValid = name && name.length >= 10;
   const isNew = slug === 'new';
+  const challenge = get(challenges, slug);
+  const {
+    id, name, reward,
+    category = Category.Promise,
+    currency = Currency.USDT,
+  } = pick(challenge, ['id', 'name', 'reward', 'category', 'currency']);
+  const isChallengeNameValid = challenge?.name &&challenge?.name.length >= 10;
   const isEditable = !isLastIncomeConfirmed && isNew;
 
   const onCreateChallenge = async () => {
@@ -76,84 +81,52 @@ const ChallengePage: React.FC = () => {
     }
   };
 
-  const onTodoUpdate = (todoName: string) => {
-    updateTodo(todoName);
-  };
-  const onTodoonDelete = (i: number) => {
-    deleteTodo(i);
-  };
-
   useEffect(() => {
-    if (id === slug) {
+    if (id === slug || isNew) {
       return;
     }
 
-    setId(slug as string);
-  }, [id, slug]);
+    getChallenge(slug as string);
+  }, [isNew, id, slug]);
 
   return (
     <div
       style={{ margin: '0 -1.6rem', }}
     >
       <Divider />
-
-      {!isNew && (
-        <Grid>
-          <div>
-            <Typography variant="caption">
-              Challenge name
-            </Typography>
-
-            <Typography variant="body1" fontWeight={500}>
-              {name}
-            </Typography>
-          </div>
-        </Grid>
-      )}
       
-      {isNew && (
-        <>
-          <Grid>
-            <ChallengeField
-              isError={!isChallengeNameValid && (isDirty || isLastIncomeConfirmed)}
-              isDisabled={isLoading && isEditable}
-              onInput={() => setIsDirty(true)}
-              onChange={setName}
-            />
-          </Grid>
+      <Grid isAdaptive>
+        <ChallengeField
+          isNew={isNew}
+          isError={!isChallengeNameValid && (isDirty || isLastIncomeConfirmed)}
+          isDisabled={isLoading && isEditable}
+          name={name}
+          onInput={() => setIsDirty(true)}
+          onChange={setName}
+        />
+      </Grid>
 
-          <Grid>
-            <CategoryBox
-              category={category}
-              onChange={setCategory}
-            />
-          </Grid>
-
-          {isLastIncomeConfirmed && !isEditable && (
-            <Grid>
-              <TodoListCard
-                isDisabled={!isChallengeNameValid}
-                reward={walletLastIncome?.amount || 0}
-                todo={todo}
-                onCreate={onCreateChallenge}
-                onUpdate={onTodoUpdate}
-                onDelete={onTodoonDelete}
-              />
-            </Grid>
-          )}
-          
-        </>
-      )}
+      <Grid isAdaptive>
+        <CategoryBox
+          isNew={isNew}
+          reward={reward}
+          category={category}
+          currency={currency}
+          onChange={(newCategory) => setCategory(newCategory)}
+        />
+      </Grid>
 
       {isEditable && (
-        <PaymentCard
-          isConfirmed={isLastIncomeConfirmed}
-          setIsConfirmed={setIsLastIncomeConfirmed}
-        />
+        <Grid isAdaptive>
+          <PaymentCard
+            isConfirmed={isLastIncomeConfirmed}
+            setIsConfirmed={setIsLastIncomeConfirmed}
+          />
+        </Grid>
       )}
 
       {isNew && (
-        <Grid>
+        <Grid isAdaptive>
           <Typography variant="body2">
             {`Transaction status: `}
 
@@ -166,8 +139,33 @@ const ChallengePage: React.FC = () => {
         </Grid>
       )}
 
-      <Grid>
+      <Grid isAdaptive>
         <Row spacing={2}>
+
+          {isNew && (
+            <Col mobile>
+              <Button
+                fullWidth
+                size="large"
+                variant="contained"
+                color="secondary"
+                style={{ backgroundColor: '#efefef' }}
+                onClick={() => window.open(`https://t.me/jozani_bot?start=Starter+Message`)}
+              >
+                Subscribe with
+
+                <i
+                  style={{
+                    marginTop: 4,
+                    marginLeft: '.5rem' 
+                  }}
+                >
+                  <IconTelegram fill="#26A5E4" />
+                </i>
+              </Button>
+            </Col>
+          )}
+
           <Col mobile="auto">
             <Button
               disabled={isNew}
@@ -184,28 +182,34 @@ const ChallengePage: React.FC = () => {
             </Button>
           </Col>
 
-          <Col mobile>
-            <Button
-              fullWidth
-              size="large"
-              variant="contained"
-              color="secondary"
-              style={{ backgroundColor: '#efefef' }}
-            >
-              Subscribe with
-
-              <i
-                style={{
-                  marginTop: 4,
-                  marginLeft: '.5rem' 
-                }}
+          {!isNew && (
+            <Col mobile>
+              <Button
+                fullWidth
+                size="large"
+                variant="contained"
               >
-                <IconTelegram fill="#26A5E4" />
-              </i>
-            </Button>
-          </Col>
+                {`Get ${currency} ${reward}`}
+                
+                <i style={{ marginLeft: '.5rem' }}>
+                  <IconArrowNext fill="currentColor" />
+                </i>
+              </Button>
+            </Col>
+          )}
         </Row>
       </Grid>
+
+      {isLastIncomeConfirmed && !isEditable && (
+        <Grid>
+          <CreateButton
+            isDisabled={!isChallengeNameValid}
+            reward={walletLastIncome?.amount || 0}
+            currency={currency}
+            onCreate={onCreateChallenge}
+          />
+        </Grid>
+      )}
     </div>
   );
 };

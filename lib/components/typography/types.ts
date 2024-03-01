@@ -1,3 +1,5 @@
 import { TypographyProps } from '@mui/material';
 
-export type ITypographyProps = TypographyProps;
+export interface ITypographyProps extends TypographyProps {
+  isBranding?: boolean;
+};

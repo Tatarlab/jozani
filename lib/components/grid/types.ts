@@ -1,7 +1,9 @@
 import { CSSProperties, ReactNode } from 'react';
 
 export interface IGridProps {
+  isAdaptive?: boolean;
   children: ReactNode;
-  outgap?: number | string | [number, number];
+  outgap?: number | number[];
   style?: CSSProperties;
+  backgroundStyle?: string;
 }
