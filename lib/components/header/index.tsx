@@ -22,6 +22,22 @@ export const Header: React.FC = () => {
         />
 
         pruebate
+
+        <sub
+          style={{
+            margin: '2.1rem 0 0 -.7rem',
+            padding: '2px 4px',
+            background: '#ffc875',
+            fontSize: '1.2rem',
+            color: 'white',
+            letterSpacing: '0px',
+            border: '0 transparent solid',
+            borderRadius: '50%',
+            opacity: .65,
+          }}
+        >
+          &#x3B1;
+        </sub>
       </StyledLogo>
 
       {isChallengeRoute && isNew && (

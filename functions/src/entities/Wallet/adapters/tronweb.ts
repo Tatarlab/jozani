@@ -6,11 +6,15 @@ import { Currency } from '../../../features/wallet/types';
 const TronWebOrigin = require('tronweb');
 const TronGridOrigin = require('trongrid');
 
-export const TRX_FULL_NODE = 'https://api.trongrid.io';
-export const TRX_SOLIDITY_NODE = 'https://api.trongrid.io';
-export const TRX_EVENT_SERVER = 'https://api.trongrid.io';
+// export const TRX_FULL_NODE = 'https://api.trongrid.io';
+// export const TRX_SOLIDITY_NODE = 'https://api.trongrid.io';
+// export const TRX_EVENT_SERVER = 'https://api.trongrid.io';
+export const TRX_FULL_NODE = 'https://nile.trongrid.io/';
+export const TRX_SOLIDITY_NODE = 'https://nile.trongrid.io/';
+export const TRX_EVENT_SERVER = 'https://nile.trongrid.io/';
 
-export const USDT_TRC20_ADDRESS = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
+// export const USDT_TRC20_ADDRESS = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
+export const USDT_TRC20_ADDRESS = 'TXLAQ63Xg1NAzckPwKHvzw7CSEmLMEqcdj';
 
 export class TronWeb extends TronWebOrigin {
   constructor(privateKey?: string) {
@@ -48,7 +52,7 @@ export const getTRXWalletAdapter = (): IWalletAdapter => ({
       onlyConfirmed: true,
       onlyTo: true,
       limit: 50,
-      order_by: 'block_timestamp,desc',
+      order_by: 'block_timestamp,asc',
     });
 
     const txs = res.data.reduce((acc: IWalletTransaction[], tx: any) => {

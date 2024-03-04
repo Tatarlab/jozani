@@ -9,28 +9,23 @@ export enum CurrencyNetwork {
   TRC20 = 'TRC20',
 }
 
-export interface IWalletTransaction {
-  txID: string;
-  tokenSymbol: Currency;
-  amount: number;
-  timestamp: number;
-}
-
 export interface IBlockchainState {
   currency: Currency;
   network: CurrencyNetwork;
   walletAddress: string;
   walletAddressDataURL: string;
-  walletBalance: number;
-  walletLastIncome?: IWalletTransaction | null;
+  walletLastAmount: number;
+  walletLastPaymentId?: string | null;
+  walletLastTransactionId?: string | null;
 }
 
 export interface IBlockchainMethods {
   getWalletAddress(): Promise<string>;
-  getWalletBalance(): Promise<{
+  getWalletLastActivity(): Promise<{
     isLastIncomeConfirmed?: boolean;
-    balance: number;
-    lastIncome?: unknown | null;
+    amount: number;
+    paymentId?: string | null;
+    transactionId?: string | null;
   }>;
 }
 

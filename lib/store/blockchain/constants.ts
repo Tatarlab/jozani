@@ -5,8 +5,9 @@ export const INITIAL_STATE: IBlockchainState = {
   network: CurrencyNetwork.TRC20,
   walletAddress: '',
   walletAddressDataURL: '',
-  walletBalance: 0,
-  walletLastIncome: null,
+  walletLastAmount: 0,
+  walletLastPaymentId: null,
+  walletLastTransactionId: null,
 };
 
 export const WALLET_ADDRESS_KEY = 'WALLET_ADDRESS';

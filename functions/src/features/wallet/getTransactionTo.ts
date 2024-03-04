@@ -4,7 +4,7 @@ import { Wallet } from '../../entities';
 import { pick } from 'lodash';
 import { Currency } from './types';
 
-export const getTransactionToWallet = onCall({}, async (req) => {
+export const getWalletTransactionTo = onCall({}, async (req) => {
   const {
     address,
     currency = Currency.USDT,

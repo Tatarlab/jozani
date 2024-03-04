@@ -17,13 +17,13 @@ interface IPaymentCardProps {
 }
 
 const PaymentCard: React.FC<IPaymentCardProps> = ({
-  isConfirmed,
+  isConfirmed = false,
   setIsConfirmed,
 }) => {
   const {
     currency, network,
     walletAddress, walletAddressDataURL,
-    getWalletAddress, getWalletBalance,
+    getWalletAddress, getWalletLastActivity,
   } = useBlockchain();
 
   useEffect(() => {
@@ -31,28 +31,31 @@ const PaymentCard: React.FC<IPaymentCardProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!walletAddress) {
+    if (isConfirmed || !walletAddress) {
       return;
     }
 
-    const updateWalletBalance = () => {
-      getWalletBalance()
-        .then(({ isLastIncomeConfirmed }) => isLastIncomeConfirmed && setIsConfirmed(isLastIncomeConfirmed));
-
+    const updateWalletBalance = async () => {
       if (isConfirmed) {
         return;
       }
+
+      const { isLastIncomeConfirmed } = await getWalletLastActivity();
+
+      setIsConfirmed(!!isLastIncomeConfirmed)
       
-      setTimeout(updateWalletBalance, 10000);
+      if (!isLastIncomeConfirmed) {
+        setTimeout(updateWalletBalance, 10000);
+      }
     };
 
     updateWalletBalance();
 
     // MOCK: dont forget to remove
-    setTimeout(() => {
-      console.log('CHANGED!');
-      setIsConfirmed(true);
-    }, 30000);
+    // setTimeout(() => {
+    //   console.log('CHANGED!');
+    //   setIsConfirmed(true);
+    // }, 30000);
   }, [isConfirmed, walletAddress]);
 
   return (

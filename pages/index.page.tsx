@@ -10,6 +10,7 @@ import Col from '../lib/components/col';
 import {
   IconArrowBack, IconArrowNext 
 } from '../lib/components/icons';
+import { getBrandingGradient } from '../lib/theme';
 
 const IndexPage: React.FC = () => {
   const [asd] = useState();
@@ -53,9 +54,10 @@ const IndexPage: React.FC = () => {
         <Row spacing={2}>
           <Col>
             <Card
-              style={{
+              sx={{
+                padding: 3,
                 justifyContent: 'center',
-                background: 'linear-gradient(106deg, #f09f6c, #ef6400)',
+                background: getBrandingGradient(2),
               }}
             >
               <a
@@ -72,35 +74,54 @@ const IndexPage: React.FC = () => {
               <img
                 src="/assets/pay-challenge.png"
                 style={{
-                  marginTop: '-15%',
+                  marginTop: '-12.5%',
                   maxWidth: '100%',
                   width: '80%'
                 }}
               />
 
               <Typography
-                display="flex"
-                width="100%"
-                variant="h4"
-                alignItems="center"
+                variant="h3"
+                marginTop="auto"
                 fontWeight="bold"
-                fontStyle="italic"
                 color={getCssVar('white', 100)}
+              >
+                Best offer for everybody
+              </Typography>
+
+              <Button
+                isBranding={4}
+                fullWidth
+                size="large"
+                variant="contained"
+                href={`/challenge?slug=new`}
+                sx={{
+                  marginTop: 2,
+                  marginLeft: 'auto',
+                }}
               >
                 Challenge friend
 
-                <i style={{ marginLeft: '1rem' }}>
+                <i style={{
+                  marginLeft: '1rem',
+                  lineHeight: 0.5,
+                }}>
                   <IconArrowNext
-                    width={24}
-                    height={24}
+                    width={16}
+                    height={16}
                   />
                 </i>
-              </Typography>
+              </Button>
             </Card>
           </Col>
 
           <Col>
-            <Card style={{ background: 'linear-gradient(106deg, #829cf3, #294dda)' }}>
+            <Card
+              sx={{
+                padding: 3,
+                background: getBrandingGradient(4), 
+              }}
+            >
               <a
                 href="/find-challenge"
                 style={{
@@ -113,6 +134,7 @@ const IndexPage: React.FC = () => {
               />
 
               <img src="/assets/create-challenge.png" style={{
+                marginTop: '-20%',
                 marginLeft: 'auto',
                 maxWidth: '100%',
                 width: '80%',
@@ -120,19 +142,36 @@ const IndexPage: React.FC = () => {
 
               <Typography
                 variant="h3"
+                marginTop="auto"
                 fontWeight="bold"
-                fontStyle="italic"
                 color={getCssVar('white', 100)}
+              >
+                {`It's so simple`}
+              </Typography>
+
+              <Button
+                isBranding={2}
+                fullWidth
+                variant="contained"
+                size="large"
+                href="/find-challenge"
+                sx={{
+                  marginTop: 2,
+                  marginLeft: 'auto',
+                }}
               >
                 Find challenge
 
-                <i style={{ marginLeft: '1rem' }}>
+                <i style={{
+                  marginLeft: '1rem',
+                  lineHeight: 0.5,
+                }}>
                   <IconArrowNext
-                    width={24}
-                    height={24}
+                    width={16}
+                    height={16}
                   />
                 </i>
-              </Typography>
+              </Button>
             </Card>
           </Col>
         </Row>

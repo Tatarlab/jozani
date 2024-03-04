@@ -32,8 +32,9 @@ const ChallengePage: React.FC = () => {
 
   const {
     currency: walletCurrency,
+    walletLastAmount,
     walletAddress,
-    walletLastIncome,
+    walletLastPaymentId,
   } = useBlockchain();
 
   const {
@@ -63,6 +64,7 @@ const ChallengePage: React.FC = () => {
         name,
         address: walletAddress,
         currency,
+        category,
       });
 
       if (data === null) {
@@ -75,7 +77,7 @@ const ChallengePage: React.FC = () => {
         throw new Error('Unknown error');
       }
 
-      router.replace(`/challenge/${id}`);
+      router.replace(`/challenge?slug=${id}`);
     } catch (err) {
       console.log('err', err)
     }
@@ -200,12 +202,12 @@ const ChallengePage: React.FC = () => {
         </Row>
       </Grid>
 
-      {isLastIncomeConfirmed && !isEditable && (
+      {isLastIncomeConfirmed && isNew && (
         <Grid>
           <CreateButton
             isDisabled={!isChallengeNameValid}
-            reward={walletLastIncome?.amount || 0}
-            currency={currency}
+            reward={walletLastAmount || 0}
+            currency={walletCurrency}
             onCreate={onCreateChallenge}
           />
         </Grid>

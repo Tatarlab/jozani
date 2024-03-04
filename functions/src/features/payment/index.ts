@@ -1,1 +1,2 @@
-export * from './create';
+export * from './createIncome';
+export * from './getIncome';

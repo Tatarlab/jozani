@@ -42,35 +42,38 @@ export const useBlockchain = create<IBlockchainStore>()(devtools((set, get) => (
     }
   },
 
-  getWalletBalance: async () => {
+  getWalletLastActivity: async () => {
     const { walletAddress } = get();
 
-    const getWBalanceWallet = getFirebaseCallable('getBalanceWallet');
+    const getWBalanceWallet = getFirebaseCallable('getWalletLastActivity');
     
     try {
       const { data } = await getWBalanceWallet({ address: walletAddress });
       const {
         isLastIncomeConfirmed = false,
-        balance,
-        lastIncome,
-      } = pick<any>(data, ['isLastIncomeConfirmed', 'balance', 'lastIncome']);
+        amount,
+        paymentId,
+        transactionId,
+      } = pick<any>(data, ['isLastIncomeConfirmed', 'amount', 'paymentId', 'transactionId']);
   
       if (isLastIncomeConfirmed) {
-        set({ walletBalance: balance });
+        set({
+          walletLastAmount: amount,
+          walletLastPaymentId: paymentId,
+          walletLastTransactionId: transactionId,
+        });
       }
-  
-      set({ walletLastIncome: lastIncome });
   
       return {
         isLastIncomeConfirmed,
-        balance,
+        amount,
       };
     } catch (err) {
       console.error(`getWalletBalance: ${err}`);
 
       return {
         isLastIncomeConfirmed: false,
-        balance: 0,
+        amount: 0,
       };
     }    
   },

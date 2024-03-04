@@ -255,6 +255,7 @@ const LIGHT_THEME = (theme: ITheme) => {
         styleOverrides: {
           root: () => ({
             margin: 0,
+            padding: getSizeUnit(16),
             background: getCssVar('grey', 50),
             border: `1px solid ${getCssVar('grey', 100)}`,
             borderRadius: 24,

@@ -3,14 +3,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { onCall } from 'firebase-functions/v2/https';
 import { getFirestore } from 'firebase-admin/firestore';
 import { Currency } from '../wallet';
-import { _getIncomes } from '../payment/getIncomes';
+import { _getPaymentIncomes } from '../payment/getIncomes';
 
 export const createChallenge = onCall({}, async (req) => {
   const {
     address,
     currency = Currency.USDT,
     name,
-  } = pick(req.data, ['address', 'currency', 'name']);
+    category,
+  } = pick(req.data, ['address', 'currency', 'name', 'category']);
 
   // connect firestore
   const store = await getFirestore();
@@ -22,7 +23,7 @@ export const createChallenge = onCall({}, async (req) => {
   const challengesRef = store.collection('challenges');
   const challengeDocRef = challengesRef.doc(challengeId);
 
-  const lastIncomes = await _getIncomes({ address, currency });
+  const lastIncomes = await _getPaymentIncomes({ address, currency });
   const lastIncome = last(lastIncomes);
 
   // no confirmed payment!
@@ -48,16 +49,21 @@ export const createChallenge = onCall({}, async (req) => {
   await challengeDocRef.set({
     paymentId: lastIncome?.ref,
     name,
+    category,
     createdAt,
     updatedAt: createdAt,
   });
 
-  const { name: challengeName } = pick((await challengeDocRef.get()).data(), [
-    'name',
+  const {
+    name: challengeName,
+    category: challengeCategory,
+  } = pick((await challengeDocRef.get()).data(), [
+    'name', 'category',
   ]);
 
   return {
     id: challengeDocRef.id,
     name: challengeName,
+    category: challengeCategory,
   };
 });

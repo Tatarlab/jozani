@@ -1,6 +1,6 @@
 export * from './create';
-export * from './getBalance';
+export * from './getLastActivity';
 export * from './getQrCode';
-export * from './getTransactionToWallet';
+export * from './getTransactionTo';
 
 export * from './types';

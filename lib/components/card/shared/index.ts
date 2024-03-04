@@ -9,7 +9,6 @@ export const StyledCard: React.FC<ICardProps> = styled(MuiCard)`
   display: flex;
   flex: ${({ isFullHeight = false }: ICardProps) => (isFullHeight ? '1 0 100%' : 1)};
   flex-direction: column;
-  padding: 1.6rem;
   margin: 0;
   width: ${({ isFullWidth = false }: ICardProps) => (isFullWidth ? '100%' : 'auto')};
   height: ${({ isFullHeight = false }: ICardProps) => (isFullHeight ? '100%' : 'auto')};
