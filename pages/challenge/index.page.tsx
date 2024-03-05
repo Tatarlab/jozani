@@ -24,6 +24,8 @@ import {
 import { useRouter } from '../../lib/models';
 import { Category } from '../../lib/components/icons/shared/categories/types';
 import { Currency } from '../../lib/store/blockchain/types';
+import { formatAmountCurrency } from '../../lib/utils';
+import Skeleton from '../../lib/components/skeleton';
 
 const ChallengePage: React.FC = () => {
   const router = useRouter();
@@ -51,11 +53,11 @@ const ChallengePage: React.FC = () => {
   const isNew = slug === 'new';
   const challenge = get(challenges, slug);
   const {
-    id, name, reward,
+    id, name, reward, charityReward,
     category = Category.Promise,
     currency = Currency.USDT,
-  } = pick(challenge, ['id', 'name', 'reward', 'category', 'currency']);
-  const isChallengeNameValid = challenge?.name &&challenge?.name.length >= 10;
+  } = pick(challenge, ['id', 'name', 'reward', 'charityReward', 'category', 'currency']);
+  const isChallengeNameValid = challenge?.name && challenge?.name.length >= 10;
   const isEditable = !isLastIncomeConfirmed && isNew;
 
   const onCreateChallenge = async () => {
@@ -108,10 +110,11 @@ const ChallengePage: React.FC = () => {
         />
       </Grid>
 
-      <Grid isAdaptive>
+      <Grid isAdaptive outgap={[0, 16]}>
         <CategoryBox
           isNew={isNew}
           reward={reward}
+          charityReward={charityReward}
           category={category}
           currency={currency}
           onChange={(newCategory) => setCategory(newCategory)}
@@ -127,32 +130,24 @@ const ChallengePage: React.FC = () => {
         </Grid>
       )}
 
-      {isNew && (
-        <Grid isAdaptive>
-          <Typography variant="body2">
-            {`Transaction status: `}
-
-            <span style={{ fontWeight: 500 }}>
-              {isLastIncomeConfirmed
-                ? 'Received'
-                : 'Awaiting for transfer'}
-            </span>
-          </Typography>
-        </Grid>
-      )}
-
       <Grid isAdaptive>
         <Row spacing={2}>
 
+          <Col mobile />
+
           {isNew && (
-            <Col mobile>
+            <Col mobile="auto">
               <Button
                 fullWidth
                 size="large"
                 variant="contained"
                 color="secondary"
-                style={{ backgroundColor: '#efefef' }}
-                onClick={() => window.open(`https://t.me/jozani_bot?start=Starter+Message`)}
+                style={{
+                  minWidth: 200,
+                  maxWidth: 360,
+                  backgroundColor: '#efefef',
+                }}
+                onClick={() => window.open(`https://t.me/jozani_bot?start=123123123`)}
               >
                 Subscribe with
 
@@ -185,14 +180,20 @@ const ChallengePage: React.FC = () => {
           </Col>
 
           {!isNew && (
-            <Col mobile>
+            <Col mobile="auto">
               <Button
                 fullWidth
                 size="large"
                 variant="contained"
               >
-                {`Get ${currency} ${reward}`}
-                
+                {reward && (
+                  <>
+                    {`Get ${formatAmountCurrency(reward, currency)}`}
+                  </>
+                ) || (
+                  <Skeleton variant="text" width={100} />
+                )}
+
                 <i style={{ marginLeft: '.5rem' }}>
                   <IconArrowNext fill="currentColor" />
                 </i>

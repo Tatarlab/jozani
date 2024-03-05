@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import React, { useState } from 'react';
+import { chunk } from 'lodash';
 import { Card } from '../lib/components/card';
 import Typography from '../lib/components/typography';
 import { getCssVar } from '../lib/styles';
@@ -11,6 +12,13 @@ import {
   IconArrowBack, IconArrowNext 
 } from '../lib/components/icons';
 import { getBrandingGradient } from '../lib/theme';
+import { Category } from '../lib/components/icons/shared/categories/types';
+import {
+  helperCategoryBackgroundProps, helperCategoryMaskProps 
+} from './challenge/ui/CategoryBox';
+
+const CATEGORIES = Object.values(Category).filter((c) => c !== Category.Giving);
+const CATEGORIES_ROWS = chunk(CATEGORIES, 6);
 
 const IndexPage: React.FC = () => {
   const [asd] = useState();
@@ -246,6 +254,35 @@ const IndexPage: React.FC = () => {
         <Typography variant="h6" textAlign="center">
           Deposited funds are sent to friends or charities
         </Typography>
+
+        <Grid outgap={[32, 0]}>
+          {CATEGORIES_ROWS.map((row, i) => (
+            <Grid key={i} outgap={[4, 0]}>
+              <Row spacing={1}>
+                {row.map((c, i) => (
+                  <Col key={i} alignItems="center" mobile>
+                    <Card
+                      sx={{ margin: '0 auto', }}
+                    >
+                      <i
+                        style={{
+                          display: 'flex',
+                          width: 32,
+                          height: 32,
+                          ...helperCategoryMaskProps(c),
+                        }}
+                      />
+                    </Card>
+
+                    <Typography variant="caption" marginTop={1}>
+                      {c}
+                    </Typography>
+                  </Col>
+                ))}
+              </Row>
+            </Grid>
+          ))}
+        </Grid>
       </Grid>
 
       <Grid

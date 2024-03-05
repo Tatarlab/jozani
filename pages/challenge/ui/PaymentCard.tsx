@@ -10,6 +10,7 @@ import { IconCopy } from '../../../lib/components/icons';
 import { copy2Clipboard } from '../../../lib/utils';
 import { getCssVar } from '../../../lib/styles';
 import { useBlockchain } from '../../../lib/store/blockchain';
+import Skeleton from '../../../lib/components/skeleton';
 
 interface IPaymentCardProps {
   isConfirmed: boolean;
@@ -25,6 +26,8 @@ const PaymentCard: React.FC<IPaymentCardProps> = ({
     walletAddress, walletAddressDataURL,
     getWalletAddress, getWalletLastActivity,
   } = useBlockchain();
+
+  const isLoading = !walletAddress;
 
   useEffect(() => {
     getWalletAddress();
@@ -80,14 +83,22 @@ const PaymentCard: React.FC<IPaymentCardProps> = ({
         <Grid outgap={0}>
           <Row spacing={2}>
             <Col mobile="auto">
-              <img
-                src={walletAddressDataURL}
-                style={{
-                  width: 64,
-                  height: 64,
-                  background: '#ccc' 
-                }}
-              />
+              {isLoading && (
+                <Skeleton
+                  width={64}
+                  height={64}
+                  variant="circular"
+                />
+              ) || (
+                <img
+                  src={walletAddressDataURL}
+                  style={{
+                    width: 64,
+                    height: 64,
+                    background: '#ccc' 
+                  }}
+                />
+              )}
             </Col>
 
             <Col mobile={9}>
@@ -96,7 +107,7 @@ const PaymentCard: React.FC<IPaymentCardProps> = ({
                   Network
                 </Typography>
 
-                <Typography variant="body1">
+                <Typography isLoading={isLoading} variant="body1">
                   {network}
                 </Typography>
               </div>
@@ -111,6 +122,7 @@ const PaymentCard: React.FC<IPaymentCardProps> = ({
                 <div style={{ display: 'flex' }}>
                   <Typography
                     noWrap
+                    isLoading={isLoading}
                     variant="body1"
                     style={{
                       overflow: 'hidden',

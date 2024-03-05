@@ -2,7 +2,9 @@ import React, {
   useEffect, useState 
 } from 'react';
 import { pick } from 'lodash';
-import { capitalize } from '@mui/material';
+import {
+  Skeleton, capitalize 
+} from '@mui/material';
 import List from '../../lib/components/list';
 import { useChallenge } from '../../lib/store/challenge';
 import { IChallenge } from '../../lib/store/challenge/types';
@@ -16,10 +18,33 @@ import { dayjs } from '../../lib/domains';
 import { Category } from '../../lib/components/icons/shared/categories/types';
 import { Currency } from '../../lib/store/blockchain/types';
 import { Button } from '../../lib/components/button';
-import {
-  IconArrowNext, IconShare 
-} from '../../lib/components/icons';
+import { IconArrowNext } from '../../lib/components/icons';
 import { useRouter } from '../../lib/models';
+import { formatAmountCurrency } from '../../lib/utils';
+
+const EMPTY_CONTENT = Array.from({ length: 5 }, (_, i) => (
+  <Card key={i} style={{ marginBottom: '1.6rem' }}>
+    <Skeleton width={300} variant="text" />
+
+    <Grid outgap={[16, 0]}>
+      <Row spacing={2}>
+        <Col mobile="auto">
+          <Skeleton
+            width={36}
+            height={36}
+            variant="circular"
+          />
+        </Col>
+
+        <Col>
+          <Skeleton width={200} variant="text" />
+
+          <Skeleton width={320} variant="text" />
+        </Col>
+      </Row>
+    </Grid>
+  </Card>
+));
 
 const FindChallengePage: React.FC = () => {
 
@@ -34,19 +59,27 @@ const FindChallengePage: React.FC = () => {
   
   const renderItem = (challenge: IChallenge) => {
     const {
-      id, name, reward,
-      category = Category.Promise, currency = Currency.USDT,
+      id, name, reward, charityReward,
+      category = Category.Promise,
+      currency = Currency.USDT,
       createdAt,
-    } = pick(challenge, ['id', 'name', 'reward', 'category', 'currency', 'createdAt']);
+    } = pick(challenge, ['id', 'name', 'reward', 'charityReward', 'category', 'currency', 'createdAt']);
     const maskProps = helperCategoryMaskProps(category);
+    console.log('found', challenge)
 
     return (
-      <Card onClick={() => router.replace(`/challenge?slug=${id}`)}>
+      <Card
+        style={{ marginBottom: '1.6rem' }}
+        onClick={() => router.replace(`/challenge?slug=${id}`)}
+      >
 
         <Grid outgap={0}>
           <Row spacing={1}>
             <Col>
-              <Typography display="flex" variant="body2">
+              <Typography
+                display="flex"
+                variant="body2"
+              >
                 {name}
               </Typography>
             </Col>
@@ -76,7 +109,7 @@ const FindChallengePage: React.FC = () => {
                 {`${capitalize(category || Category.Promise)} Initiative`}
 
                 <span style={{ marginLeft: 'auto' }}>
-                  {`${currency} ${(reward * 0.3).toFixed(2)}`}
+                  {`${formatAmountCurrency(charityReward, currency)}`}
                 </span>
               </Typography>
             </Col>
@@ -97,7 +130,7 @@ const FindChallengePage: React.FC = () => {
                 href={`/challenge?slug=${id}`}
                 style={{ marginLeft: 'auto' }}
               >
-                {`Get ${currency} ${reward}`}
+                {`Get ${formatAmountCurrency(reward, currency)}`}
 
                 <i style={{
                   marginLeft: '.6rem',
@@ -125,6 +158,7 @@ const FindChallengePage: React.FC = () => {
           isReady={isReady}
           data={challengesList}
           renderItem={renderItem}
+          emptyContent={EMPTY_CONTENT}
         />
       </Grid>
     </div>

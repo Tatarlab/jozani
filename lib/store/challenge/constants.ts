@@ -8,6 +8,8 @@ export const INITIAL_STATE: IChallengeState = {
     'new': {
       name: '',
       reward: 0,
+      charityReward: 0,
+      cashbackReward: 0,
       currency: Currency.USDT,
       category: Category.Promise,
       createdAt: dayjs().toDate(),

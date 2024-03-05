@@ -1,7 +1,9 @@
 import React, {
   useEffect, useRef, useState 
 } from 'react';
-import { pick } from 'lodash';
+import {
+  get, pick 
+} from 'lodash';
 import { capitalize } from '@mui/material';
 import { Card } from '../../../lib/components/card';
 import {
@@ -14,7 +16,8 @@ import Col from '../../../lib/components/col';
 import Row from '../../../lib/components/row';
 import { dayjs, } from '../../../lib/domains';
 import { IChallenge } from '../../../lib/store/challenge/types';
-import { Currency } from '../../../lib/store/blockchain/types';
+import Skeleton from '../../../lib/components/skeleton';
+import { formatAmountCurrency } from '../../../lib/utils';
 
 export interface ICategoryBoxProps extends Pick<IChallenge,
   'category' |
@@ -22,34 +25,46 @@ export interface ICategoryBoxProps extends Pick<IChallenge,
   'currency'
 > {
   isNew?: boolean;
+  charityReward: number;
   createdAt?: Date | number;
   onChange(category: Category): void;
 }
 
-export const helperCategoryBackgroundProps = (c: Category = Category.Promise) => ({
-  backgroundImage: `linear-gradient(333deg, ${CATEGORY_COLORS[c][0]}, ${CATEGORY_COLORS[c][1]})`,
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'center',
-});
+export const helperCategoryBackgroundProps = (c: Category = Category.Promise) => {
+  const from = get(CATEGORY_COLORS, `${c}[0]`, CATEGORY_COLORS[Category.Promise][0]);
+  const to = get(CATEGORY_COLORS, `${c}[1]`, CATEGORY_COLORS[Category.Promise][1]);
 
-export const helperCategoryMaskProps = (c: Category = Category.Promise, isActive = false) => ({
-  ...(isActive ? { backgroundColor: 'white' } : helperCategoryBackgroundProps(c)),
-  maskImage: `url(${CATEGORY_SRC[c]})`,
-  maskRepeat: 'no-repeat',
-  maskPosition: 'center',
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  '-webkit-mask-image': `url(${CATEGORY_SRC[c]})`,
-})
+  return {
+    backgroundImage: `linear-gradient(333deg, ${from}, ${to})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  };
+};
+
+export const helperCategoryMaskProps = (c: Category = Category.Promise, isActive = false) => {
+  const src = get(CATEGORY_SRC, c, CATEGORY_SRC[Category.Promise]);
+
+  return {
+    ...(isActive ? { backgroundColor: 'white' } : helperCategoryBackgroundProps(c)),
+    maskImage: `url(${src})`,
+    maskRepeat: 'no-repeat',
+    maskPosition: 'center',
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    '-webkit-mask-image': `url(${src})`,
+  };
+};
 
 const CategoryBox: React.FC<ICategoryBoxProps> = ({
   isNew = false,
-  category: categoryOrigin = Category.Promise,
-  currency = Currency.USDT,
+  category: categoryOrigin,
+  currency,
   reward,
+  charityReward,
   createdAt,
   onChange,
 }) => {
+  const isLoading = !reward;
   const [category, setCategory] = useState(categoryOrigin);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -121,15 +136,17 @@ const CategoryBox: React.FC<ICategoryBoxProps> = ({
 
   return (
     <section>
-      <Typography variant="h6">
-        Charity Initiative
+      {isNew && (
+        <Typography variant="h6">
+          Charity Initiative
 
-        <div>
-          <Typography variant="body1">
-            Stuck challenges donate funds to selected charity
-          </Typography>
-        </div>
-      </Typography>
+          <div>
+            <Typography variant="body1">
+              Stuck challenges donate funds to selected charity
+            </Typography>
+          </div>
+        </Typography>
+      )}
 
       {!isNew && (
         <Grid outgap={[16, 0]}>
@@ -137,22 +154,36 @@ const CategoryBox: React.FC<ICategoryBoxProps> = ({
             <Grid outgap={0}>
               <Row spacing={2}>
                 <Col mobile="auto">
-                  <i
-                    style={{
-                      display: 'flex',
-                      width: 32,
-                      height: 32,
-                      ...helperCategoryMaskProps(category),
-                    }}
-                  />
+                  {isLoading && (
+                    <Skeleton
+                      variant="circular"
+                      width={32}
+                      height={32}
+                    />
+                  ) || (
+                    <i
+                      style={{
+                        display: 'flex',
+                        width: 32,
+                        height: 32,
+                        ...helperCategoryMaskProps(category),
+                      }}
+                    />
+                  )}
                 </Col>
 
                 <Col>
-                  <Typography variant="body2">
-                    {`${capitalize(category)} Initiative`}
+                  <Typography
+                    isLoading={isLoading}
+                    variant="body2"
+                  >
+                    {`${capitalize(category || Category.Promise)} Initiative`}
                   </Typography>
 
-                  <Typography variant="caption">
+                  <Typography
+                    isLoading={isLoading}
+                    variant="caption"
+                  >
                     <strong style={{ fontWeight: 600 }}>
                       {`Active since: `}
                     </strong>
@@ -162,8 +193,11 @@ const CategoryBox: React.FC<ICategoryBoxProps> = ({
                 </Col>
 
                 <Col mobile="auto" justifyContent="center">
-                  <Typography variant="h6">
-                    {`${currency} ${(reward * 0.3).toFixed(2)}`}
+                  <Typography
+                    isLoading={isLoading}
+                    variant="h6"
+                  >
+                    {formatAmountCurrency(charityReward, currency)}
                   </Typography>
                 </Col>
               </Row>

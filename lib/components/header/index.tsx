@@ -4,6 +4,8 @@ import { Button } from '../button';
 import { useRouter } from 'next/router';
 import Typography from '../typography';
 import { IconArrowNext, IconChevronRight, IconPlus, LogoPruebate } from '../icons';
+import { useBlockchain } from '../../store/blockchain';
+import { formatAmountCurrency } from '../../utils';
 
 export const Header: React.FC = () => {
   const router = useRouter();
@@ -11,6 +13,11 @@ export const Header: React.FC = () => {
   const isNew = router.query?.slug === 'new';
   const isChallengeRoute = /challenge/i.test(router.asPath);
   const isStartButtonVisible = !(isChallengeRoute && isNew);
+
+  const {
+    currency: walletCurrency,
+    walletLastAmount,
+  } = useBlockchain();
 
   return (
     <StyledHeader>
@@ -47,7 +54,10 @@ export const Header: React.FC = () => {
           fontWeight={500}
           style={{ marginLeft: 'auto' }}
         >
-          Challenge
+          {walletLastAmount
+            ? `Reward: ${formatAmountCurrency(walletLastAmount, walletCurrency)}`
+            : 'Challenge: Await'
+          }
         </Typography>
       )}
   

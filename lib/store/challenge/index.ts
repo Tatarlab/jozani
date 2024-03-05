@@ -6,6 +6,7 @@ import { IChallengeStore } from './types';
 import { INITIAL_STATE } from './constants';
 import { getFirebaseCallable } from '../../../entities/firebase';
 import { getStoreOptions } from '..';
+import { formatAmountCurrency } from '../../utils';
 
 export const useChallenge = create<IChallengeStore>()(devtools((set, get) => ({
   ...INITIAL_STATE,
@@ -39,12 +40,20 @@ export const useChallenge = create<IChallengeStore>()(devtools((set, get) => ({
     
     set(produce((state) => {
       const prevChallenge = state.challenges[id] || {};
-      const { name: prevName, reward: prevReward, currency: prevCurrency } = prevChallenge;
+      const {
+        name: prevName,
+        reward: prevReward,
+        charityReward: prevCharityReward,
+        cashbackReward: prevCashbackReward,
+        currency: prevCurrency,
+      } = prevChallenge;
 
       state.challenges[id] = {
         ...prevChallenge,
         name: name || prevName,
         reward: reward || prevReward,
+        charityReward: reward * 0.03 || prevCharityReward,
+        cashbackReward: reward * 0.03 || prevCashbackReward,
         currency: currency || prevCurrency,
       };
     }));
@@ -65,6 +74,8 @@ export const useChallenge = create<IChallengeStore>()(devtools((set, get) => ({
           id,
           name,
           reward,
+          charityReward: reward * 0.03,
+          cashbackReward: reward * 0.03,
           currency,
           category,
         };

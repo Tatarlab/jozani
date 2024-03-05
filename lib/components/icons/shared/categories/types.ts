@@ -1,15 +1,15 @@
 export enum Category {
   Animal = 'Animal',
   Business = 'Business',
+  Confession = 'Confession',
   Folks = 'Folks',
+  Food = 'Food',
   Giving = 'Giving',
   Health = 'Health',
-  Housing = 'Housing',
   Learn = 'Learn',
   Nature = 'Nature',
-  Nutrition = 'Nutrition',
-  Pray = 'Pray',
   Promise = 'Promise',
   Rest = 'Rest',
+  Shelter = 'Shelter',
   Sport = 'Sport',
 }

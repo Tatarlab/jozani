@@ -5,6 +5,8 @@ export interface IChallenge {
   id?: string;
   name: string;
   reward: number;
+  charityReward: number;
+  cashbackReward: number;
   currency: Currency;
   category: Category;
   createdAt: Date | number;

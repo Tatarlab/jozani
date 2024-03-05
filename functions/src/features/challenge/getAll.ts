@@ -27,6 +27,7 @@ export const getChallengeAll = onCall({}, async (req) => {
       id: doc.id,
       name: docData.name,
       reward: paymentDoc?.amount,
+      category: docData.category,
     };
   }));
 });

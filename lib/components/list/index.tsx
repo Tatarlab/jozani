@@ -28,9 +28,7 @@ const List = React.forwardRef<HTMLUListElement, IListProps>(({
     }
 
     if (!isReady) {
-      return (
-        <>Loading...</>
-      );
+      return emptyContent;
     }
 
     if (!data || !data.length) {
