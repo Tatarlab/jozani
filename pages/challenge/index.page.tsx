@@ -139,6 +139,7 @@ const ChallengePage: React.FC = () => {
             <Col mobile="auto">
               <Button
                 fullWidth
+                disabled={!walletAddress}
                 size="large"
                 variant="contained"
                 color="secondary"
@@ -147,7 +148,7 @@ const ChallengePage: React.FC = () => {
                   maxWidth: 360,
                   backgroundColor: '#efefef',
                 }}
-                onClick={() => window.open(`https://t.me/jozani_bot?start=123123123`)}
+                onClick={() => window.open(`https://t.me/jozani_bot?start=${walletAddress}`)}
               >
                 Subscribe with
 

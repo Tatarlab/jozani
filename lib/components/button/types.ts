@@ -4,4 +4,5 @@ import {
 
 export interface IButtonProps extends ButtonProps {
   isBranding?: boolean | number;
+  target?: '_blank';
 };

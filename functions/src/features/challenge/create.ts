@@ -1,6 +1,7 @@
-import { first, last, pick } from 'lodash';
+import { first, pick } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { onCall } from 'firebase-functions/v2/https';
+import * as logger from 'firebase-functions/logger';
 import { getFirestore } from 'firebase-admin/firestore';
 import { Currency } from '../wallet';
 import { _getPaymentIncomes } from '../payment/getIncomes';
@@ -24,7 +25,8 @@ export const createChallenge = onCall({}, async (req) => {
   const challengeDocRef = challengesRef.doc(challengeId);
 
   const lastIncomes = await _getPaymentIncomes({ address, currency });
-  const lastIncome = last(lastIncomes);
+  const lastIncome = first(lastIncomes);
+  logger.log('  LAST INCOMES [PAYMENT]', lastIncomes.map((li) => li.data()));
 
   // no confirmed payment!
   if (!lastIncome) {
@@ -36,10 +38,7 @@ export const createChallenge = onCall({}, async (req) => {
     .where('paymentId', '==', lastIncome?.ref)
     .limit(1)
     .get();
-
-  const challengeBoundPaymentId = first(challengesQuerySnapshot.docs
-    .map((doc) => doc.data()));
-  const hasLastIncomeBound = !!challengeBoundPaymentId;
+  const hasLastIncomeBound = challengesQuerySnapshot.docs.length > 0;
 
   // challenge already bound with payment!
   if (hasLastIncomeBound) {

@@ -3,7 +3,7 @@ import { onCall } from 'firebase-functions/v2/https';
 import { getFirestore } from 'firebase-admin/firestore';
 import * as logger from 'firebase-functions/logger';
 import { Wallet } from '../../entities';
-import { last, pick } from 'lodash';
+import { first, last, pick } from 'lodash';
 import { Currency } from './types';
 import { _createPaymentIncome } from '../payment';
 import { _getPaymentIncomes } from '../payment/getIncomes';
@@ -43,7 +43,7 @@ export const getWalletLastActivity = onCall({}, async (req) => {
     logger.log('  LAST INCOME [ORIGIN]', lastIncomeOrigin);
 
     const lastIncomes = await _getPaymentIncomes({ address, currency });
-    const lastIncome = last(lastIncomes);
+    const lastIncome = first(lastIncomes);
     const lastIncomeData = lastIncome?.data();
     const updatedAt = new Date();
 

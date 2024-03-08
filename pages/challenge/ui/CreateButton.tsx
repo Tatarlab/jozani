@@ -22,7 +22,7 @@ const CreateButton: React.FC<ICreateButtonProps> = ({
   reward,
   onCreate,
 }) => {
-  const isReady = !reward || Number.isNaN(reward);
+  const isReady = reward || !Number.isNaN(reward);
 
   return (
     <div

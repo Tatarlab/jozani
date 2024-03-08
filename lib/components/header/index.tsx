@@ -68,7 +68,7 @@ export const Header: React.FC = () => {
           variant="contained"
           style={{ marginLeft: 'auto', alignItems: 'center' }}
         >
-          New Challenge
+          Open App
 
           <i style={{ marginLeft: '1rem', lineHeight: 0.8 }}>
             <IconPlus

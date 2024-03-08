@@ -9,6 +9,8 @@ export default class TelegramBot extends ChatBot {
     super(Channels.Telegram, getStrategy);
   }
 
+  any = telegram.any;
+
   message = telegram.message;
   editedMessage = telegram.editedMessage;
 
