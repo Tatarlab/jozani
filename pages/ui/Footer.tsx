@@ -1,14 +1,10 @@
 import React from 'react';
-import { chunk } from 'lodash';
-// import Link from 'next/link';
-import { Link as MuiLink } from '@mui/material';
-import Link from 'next/link';
+import NextLink from 'next/link';
+import Link from '../../lib/components/link';
 import Typography from '../../lib/components/typography';
 import Grid from '../../lib/components/grid';
-import { Category } from '../../lib/components/icons/shared/categories/types';
 import Row from '../../lib/components/row';
 import Col from '../../lib/components/col';
-import { Card } from '../../lib/components/card';
 import Divider from '../../lib/components/divider';
 import { StyledLogo } from '../../lib/components/header/shared';
 import { getCssVar } from '../../lib/styles';
@@ -17,20 +13,23 @@ import { IconTelegram } from '../../lib/components/icons';
 
 const Footer: React.FC = () => (
   <>
-    <StyledLogo style={{ color: getCssVar('white', 100) }}>
-      pruebate
+    <div style={{ display: 'flex' }}>
+      <StyledLogo style={{ color: getCssVar('white', 100) }}>
+        pruebate
+      </StyledLogo>
 
-      <div style={{ marginLeft: 'auto' }}>
-        <Button
-          color="secondary"
-          href="https://t.me/jozani_bot"
-          target="_blank"
-          style={{ padding: 0 }}
-        >
-          <IconTelegram />
-        </Button>
-      </div>
-    </StyledLogo>
+      <Button
+        color="secondary"
+        href="https://t.me/jozani_bot"
+        target="_blank"
+        style={{
+          padding: 0,
+          marginLeft: 'auto' 
+        }}
+      >
+        <IconTelegram />
+      </Button>
+    </div>
 
     <Typography
       variant="body1"
@@ -48,18 +47,22 @@ const Footer: React.FC = () => (
         <Col mobile />
 
         <Col mobile="auto">
-          <Link href="/faq">
-            <MuiLink color="secondary">
-              FAQ
-            </MuiLink>
+          <Link
+            href="/faq"
+            color="secondary"
+            component={NextLink}
+          >
+            FAQ
           </Link>
         </Col>
 
         <Col mobile="auto">
-          <Link href="/legal">
-            <MuiLink color="secondary">
-              Legal Info
-            </MuiLink>
+          <Link
+            href="/legal"
+            color="secondary"
+            component={NextLink}
+          >
+            Legal Info
           </Link>
         </Col>
       </Row>

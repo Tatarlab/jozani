@@ -140,17 +140,18 @@ const ChallengePage: React.FC = () => {
               <Button
                 fullWidth
                 disabled={!walletAddress}
+                target="_blank"
                 size="large"
                 variant="contained"
                 color="secondary"
+                href={`https://t.me/jozani_bot?start=${btoa(`address:${walletAddress}`)}`}
                 style={{
                   minWidth: 200,
                   maxWidth: 360,
                   backgroundColor: '#efefef',
                 }}
-                onClick={() => window.open(`https://t.me/jozani_bot?start=${walletAddress}`)}
               >
-                Subscribe with
+                Add Wallet
 
                 <i
                   style={{
@@ -184,8 +185,10 @@ const ChallengePage: React.FC = () => {
             <Col mobile="auto">
               <Button
                 fullWidth
+                target="_blank"
                 size="large"
                 variant="contained"
+                href={`https://t.me/jozani_bot?start=${btoa(`slug:${slug}`)}`}
               >
                 {reward && (
                   <>

@@ -2,25 +2,36 @@ import { pick } from 'lodash';
 import { onCall } from 'firebase-functions/v2/https';
 import { getFirestore } from 'firebase-admin/firestore';
 
-export const getChallenge = onCall({}, async (req) => {
-  const { id } = pick(req.data, ['id']);
+interface IChallengeQuery {
+  id: string;
+}
+
+export const _getChallenge = async (data: IChallengeQuery) => {
+  const { id } = pick(data, ['id']);
 
   // connect firestore
   const store = await getFirestore();
 
   const challengesRef = store.collection('challenges');
-  const paymentsRef = store.collection('payments');
   const challengeDocRef = challengesRef.doc(id);
-  const challengeDoc = (await challengeDocRef.get()).data();
 
-  const paymentDocRef = paymentsRef.doc(challengeDoc?.paymentId?.id);
-  const paymentDoc = (await paymentDocRef.get()).data();
+  return challengeDocRef;
+};
 
-  const { name: challengeName } = pick(challengeDoc, ['name']);
+export const getChallenge = onCall({}, async (req) => {
+  const store = await getFirestore();
+
+  const challengeDoc = await _getChallenge(req.data);
+  const challengeDocData = (await challengeDoc.get()).data();
+
+  const paymentsRef = store.collection('payments');
+  const paymentDocRef = paymentsRef.doc(challengeDocData?.paymentId?.id);
+  const paymentDocData = (await paymentDocRef.get()).data();
 
   return {
-    id: challengeDocRef.id,
-    name: challengeName,
-    reward: paymentDoc?.amount,
+    id: challengeDoc.id,
+    name: challengeDocData?.name,
+    paymentId: paymentDocRef?.id,
+    reward: paymentDocData?.amount,
   };
 });
